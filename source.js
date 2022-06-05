@@ -13,7 +13,8 @@ async function getJson(url){
   }
 }
 const level = await getJson("./level.json")
-let currentLevel = 1
+let currentLevel = 2
+
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
 
