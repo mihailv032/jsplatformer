@@ -1,0 +1,28 @@
+{
+  "name": "jsplatformer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "source.js",
+  "scripts": {
+	"start": "serve ./",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mishgun032/jsplatformer.git"
+  },
+  "keywords": [
+    "js",
+    "game",
+    "platformer"
+  ],
+  "author": "mihail",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mishgun032/jsplatformer/issues"
+  },
+  "homepage": "https://github.com/mishgun032/jsplatformer#readme",
+  "dependencies": {
+    "serve": "^13.0.2"
+  }
+}
