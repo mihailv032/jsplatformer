@@ -15,7 +15,7 @@ export default class Screen {
     this.buffer.canvas.height = world.height
     this.buffer.canvas.width = world.width
 
-    this.doorAnimation //technically door is not an object from the world so it will be drawn here
+    this.flagAnimation = {delay:0,totalFrames:9,currentFrame:0,delayThreshold:3} //technically door is not an object from the world so it will be drawn here
 
     this.update = this.update.bind(this)
   }
@@ -93,15 +93,17 @@ export default class Screen {
       }
     }
   }
-  #drawDoor(){
-    let texture = "door"
-    if(this.player.y == 5){
-
-    }else{
-      texture = texture+"0"
+  #drawFlag(){
+    if (this.flagAnimation.delay == this.flagAnimation.delayThreshold){
+      //check if at the last frame
+      this.flagAnimation.currentFrame == this.flagAnimation.totalFrames ? this.flagAnimation.currentFrame=0 : this.flagAnimation.currentFrame++
+      this.flagAnimation.delay = 0
+    }else {
+      this.flagAnimation.delay += 1
     }
+    let texture = "flag"
 
-    this.buffer.drawImage(this.getTexture(texture),window.level.endGame[0]*16,(window.level.endGame[1]*16)+4)
+    this.buffer.drawImage(this.getTexture(`flag${this.flagAnimation.currentFrame}`),window.level.endGame[0]*16,(window.level.endGame[1]*16)+4)
   }
   #drawLevel(){
 //    this.#draw(this.level.background[0])
@@ -116,7 +118,7 @@ export default class Screen {
   update(){
     let objects = this.world.objects
     this.#drawLevel()
-    this.#drawDoor()
+    this.#drawFlag()
     this.#drawPlayer()
     for(let key in objects[0]){
       this.#drawMushroom(objects[0][key])
@@ -133,7 +135,7 @@ export default class Screen {
     this.context.drawImage(this.buffer.canvas, 0, 0, this.buffer.canvas.width, this.buffer.canvas.height, 0, 0, this.context.canvas.width, this.context.canvas.height)
 
   }
-  setAnimations(){
+  setAnimations(){//called before the start of every level to set all the textures
     let objects = this.world.objects
     this.player.animations["idle"] = new Animation(3)
     this.player.animations["run"] = new Animation(5)
@@ -195,6 +197,21 @@ class Tiles{
     
     this.tiles.set(name,buffer)
   }
+  add64(name,x,y,tilesetId){
+     const buffer = document.createElement('canvas');
+    buffer.width = this.width
+    buffer.height = this.height
+
+    buffer.getContext('2d').drawImage(this.tileset[tilesetId],
+      x,y,
+      64,64,
+      0,0,
+      this.width,this.height
+      )
+    
+    this.tiles.set(name,buffer)
+
+  }
   get(name){
     if(this.tiles.has(name)){
       return this.tiles.get(name)
@@ -221,20 +238,20 @@ async function getTexture(){
   let textures
   let mushrooms
   let coin
-  let door
+  let flag
   loadImage("./textures/mcSprites.png").then( img => {
     mc = img
   })
   loadImage("./textures/mushroomSpritesTest.png").then( img => {
     mushrooms = img
   })
-  loadImage("./textures/door.png").then(img => door = img)
+  loadImage("./textures/finishFlag.png").then(img => flag = img)
   loadImage("./textures/tileset.png").then( img => {
     textures = img
   })
 
   await loadImage("./textures/klubnika.png").then( img => coin=img )
-    tiles =new Tiles(16,16,textures,mc,mushrooms,coin,door)
+    tiles =new Tiles(16,16,textures,mc,mushrooms,coin,flag)
 }
 await getTexture()
   tiles.add("ground",80,240,0)
@@ -312,8 +329,13 @@ await getTexture()
   tiles.add("coin14",488,8,3)
   tiles.add("coin15",520,8,3)
 
-  tiles.add("door0",0,0,4)
-  tiles.add("door1",16,0,4)
-  tiles.add("door2",32,0,4)
-  tiles.add("door3",48,0,4)
-  tiles.add("door4",64,0,4)
+  tiles.add64("flag0",0,0,4)
+  tiles.add64("flag1",64,0,4)
+  tiles.add64("flag2",128,0,4)
+  tiles.add64("flag3",192,0,4)
+  tiles.add64("flag4",256,0,4)
+  tiles.add64("flag5",320,0,4)
+  tiles.add64("flag6",384,0,4)
+  tiles.add64("flag7",448,0,4)
+  tiles.add64("flag8",512,0,4)
+  tiles.add64("flag9",576,0,4)
