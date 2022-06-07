@@ -131,17 +131,18 @@ export class RenderEngine{
     for(let key in objects[0]){
       this.#edgeCheck(objects[0][key])
       if ( roundToTheNearestMultipleOfSixteen(objects[0][key].x) == roundToTheNearestMultipleOfSixteen(this.player.x) ){
-        if(this.player.jumping){
-          if( roundToTheNearestMultipleOfSixteen(objects[0][key].y) == roundToTheNearestMultipleOfSixteen(this.player.y)+16){ 
-            objects[0][key].takeDamage(1)
+        if(this.player.yVelocity > 0){//if the player jumps on mushrooms head
+          if( roundToTheNearestMultipleOfSixteen(objects[0][key].y)-16 == roundToTheNearestMultipleOfSixteen(this.player.y)){ 
             objects[0][key].takeDamage(100)
             return;
           }
         }
         if( roundToTheNearestMultipleOfSixteen(objects[0][key].y) == this.player.y){ 
-//          alert("axe attacks")
-        this.player.takeDamage()
-      }
+          if(objects[0][key].health != 0){//mushrooms are alive for 9 frames after their hp reach 0 so they can play the death animation 
+            console.log('attack')
+            this.player.takeDamage()
+          }
+        }
       }
     }
     for(let key in objects[1]){
