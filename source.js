@@ -60,17 +60,17 @@ function startLevel(){
 function retry(){
   setTimeout( () => renderEngine.stop(), 0) //yes
   document.getElementById("popup").style.display = "flex";
-  document.getElementById("score").innerHTML += world.score
+  document.getElementById("score").innerHTML = `Score: ${world.score}`
 //  document.getElementById("time").innerHTML += world.timer
 }
 function restartLevel(){
-<<<<<<< HEAD
-=======
   renderEngine.stop()
-  world.timer=window.level.timer
->>>>>>> main
   world.populateWorld()
+ 
   world.player.health = 1
+  world.score = 0
+  world.timer=window.level.timer
+
   screen.setAnimations()
   renderEngine.start()
 }
