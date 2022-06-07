@@ -74,12 +74,12 @@ export class Player extends Creature {
 }
 
 export class Enemy extends Creature{
-  constructor(type,x,y,movement,disintegrate){
+  constructor(type,x,y,bariers,disintegrate){
     super(x,y,disintegrate)
     this.type = type
-    this.movesRight = movement.movesRight
+//    this.movesRight = movement.movesRight
     this.brain = this.brain.bind(this)
-    this.bariers = movement.bariers
+    this.bariers = bariers
   }
   moveLeft(){
     this.xVelocity += 2

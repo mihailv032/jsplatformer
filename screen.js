@@ -59,7 +59,6 @@ export default class Screen {
 
   #drawMushroom(object){
 
-//    console.log(object)
     let textureName="run"; 
     let texture = object.xVelocity > 0 ? "mushroomRun" : "mushroomRunLeft";
 
@@ -67,7 +66,6 @@ export default class Screen {
       textureName="death"
       texture="mushroomDeath"
     }    
-    console.log(object)
     texture = texture+String(this.#handlAnimation(object.animations,textureName))
     this.buffer.fillStyle = object.health > 0.5 ? "#009614" : "#fc030f"
     this.buffer.fillRect(Math.floor(object.x), Math.floor(object.y+2), (object.width*object.health), 2) //hp bar
@@ -120,11 +118,11 @@ export default class Screen {
     this.#drawLevel()
     this.#drawFlag()
     this.#drawPlayer()
-    for(let key in objects[0]){
-      this.#drawMushroom(objects[0][key])
-    }
     for(let key in objects[1]){
       this.#drawCoin(objects[1][key])
+    }
+    for(let key in objects[0]){
+      this.#drawMushroom(objects[0][key])
     }
 //    this.buffer.drawImage(this.getTexture("door0"),50,50,16,16)//test
     this.buffer.fillStyle="#ffffff"
@@ -261,7 +259,10 @@ await getTexture()
   tiles.add("grassTopLeftCorner",64,32,0)
   tiles.add('grassBottomRightCorner',256,272,0)
   tiles.add("grassVertical",256,256,0)
-  tiles.add("greenLeaf",560,144,0)
+  tiles.add("greenLeaf",480,176,0)
+  tiles.add("leafBottomLeftCorner",496,176,0)
+  tiles.add("leafVertical",496,160,0)
+  tiles.add("leafTopLeftCorner",464,144,0)
 
   tiles.add("mcRun0",0,16,1) 
   tiles.add("mcRun1",16,16,1)

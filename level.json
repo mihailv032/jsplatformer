@@ -124,8 +124,8 @@
             10,11
           ],
           "collisionResolve":{
-            "x":-0.6,
-            "y":0
+            "x":0,
+            "y":1
           }
         },
         {
@@ -238,32 +238,31 @@
       {
         "x":49,
         "y":13,
-        "movement":{
-          "movesRight":true,
-          "bariers":[36,49]
-        }
+        "bariers":[36,49]
       },
       {
         "x":53,
         "y":9,
-        "movement":{
-          "movesRight":true,
-          "bariers":[50,53]
-        }
+        "bariers":[50,53]
       },
       {
         "x":53,
         "y":6,
-        "movement":{
-          "movesRight":false,
-          "bariers":[53,55]
-        }
+        "bariers":[53,55]
       }
      ],
      "mcSpawn":[4,15],
      "endGame":[45,4]
 
   },
+
+
+
+
+
+
+
+
   "2":{
      "background": [
        {
@@ -286,19 +285,139 @@
             "y":1
           }
         },
-
         {
           "tile":"greenLeaf",
           "ranges":[
             39,43,
-            11,12
+            10,11
           ],
           "collisionResolve":{
             "x":"0",
             "y":"1"
           }
+        },
+        {
+          "tile":"greenLeaf",
+          "ranges":[
+            0,5,
+            12,13
+          ],
+          "collisionResolve":{
+            "x":0,
+            "y":1
+          }
+        },
+        {
+          "tile":"greenLeaf",
+          "ranges":[
+            7,11,
+            10,11
+          ],
+          "collisionResolve":{
+            "x":0,
+            "y":1
+          }
+        },
+        {
+          "tile":"groundGrass",
+          "ranges":[
+            0,56,
+            15,16
+          ],
+          "collisionResolve":{
+            "x":0,
+            "y":1
+          }
+        },
+        {
+          "tile":"leafBottomLeftCorner",
+          "ranges":[
+            11,12,
+            10,11
+          ],
+          "collisionResolve":{
+            "x":0,
+            "y":1
+          }
+        },
+        {
+          "tile":"leafVertical",
+          "ranges":[
+            11,12,
+            8,10
+          ],
+          "collisionResolve":{
+            "x":-0.6,
+            "y":0
+          }
+        },
+        {
+          "tile":"leafTopLeftCorner",
+          "ranges":[
+            11,12,
+            7,8
+          ],
+          "collisionResolve":{
+            "x":1,
+            "y":1
+          }
+        },
+        {
+          "tile":"greenLeaf",
+          "ranges":[
+            12,16,
+            7,8
+          ],
+          "collisionResolve":{
+            "x":0,
+            "y":1
+          }
+        },
+        {
+          "tile":"leafBottomLeftCorner",
+          "ranges":[
+            16,17,
+            7,8
+          ],
+          "collisionResolve":{
+            "x":-0.6,
+            "y":0
+          }
+        },
+        {
+          "tile":"leafVertical",
+          "ranges":[
+            16,17,
+            6,7
+          ],
+          "collisionResolve":{
+            "x":1,
+            "y":1
+          }
+        },
+        {
+          "tile":"leafTopLeftCorner",
+          "ranges":[
+            16,17,
+            5,6
+          ],
+          "collisionResolve":{
+            "x":1,
+            "y":1
+
+          }
+        },
+        {
+          "tile":"greenLeaf",
+          "ranges":[
+            17,25,
+            5,6
+          ],
+          "collisionResolve":{
+            "x":0,
+            "y":1
+          }
         }
- 
     ],
     "coins":[
       [40,4],
@@ -313,16 +432,93 @@
       [49,4],
       [50,4],
 
-      [39,10],
-      [40,10],
-      [41,10],
-      [42,10]
+      [39,9],
+      [40,9],
+      [41,9],
+      [42,9],
+
+      [0,14],
+      [1,14],
+      [2,14],
+      [3,14],
+      [4,14],
+      [5,14],
+      [6,14],
+      [7,14],
+      [8,14],
+      [9,14],
+      [10,14],
+
+      [15,14],
+
+      [20,14],
+      [21,14],
+      [22,14],
+      [23,14],
+      [24,14],
+      [25,14],
+      [26,14],
+      [27,14],
+      [28,14],
+      [29,14],
+      [30,14],
+
+      [35,14],
+
+      [40,14],
+      [41,14],
+      [42,14],
+      [43,14],
+      [44,14],
+      [45,14],
+      [46,14],
+      [47,14],
+      [48,14],
+      [49,14],
+      [50,14],
+
+      [55,14]
+
     ],
      "mushrooms":[
-      
+      {
+        "x":20,
+        "y": 14,
+        "bariers":[0,20]
+      },
+      {
+        "x":0,
+        "y":14,
+        "bariers":[0,20]
+      },
+      {
+        "x":20,
+        "y":14,
+        "bariers":[20,55]
+      },
+      {
+        "x":40,
+        "y":14,
+        "bariers":[20,40]
+      },
+      {
+        "x":12,
+        "y":6,
+        "bariers":[12,15]
+      }
      ],
      "mcSpawn":[45,4],
      "endGame":[20,4]
 
+  },
+  
+  
+  
+  
+  
+  "3":{
+    "background":[
+
+    ]
   }
 }

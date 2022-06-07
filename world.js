@@ -47,7 +47,7 @@ export default class World{
     this.player.x = window.level.mcSpawn[0]*16//set the spawn spoints here
     this.player.y = window.level.mcSpawn[1]*16
     window.level.mushrooms.forEach( (mushroom,index) => {
-      this.objects[0][index] = new Enemy("mushroom",mushroom.x*16,mushroom.y*16,mushroom.movement, () => this.delete(0,index) )
+      this.objects[0][index] = new Enemy("mushroom",mushroom.x*16,mushroom.y*16,mushroom.bariers, () => this.delete(0,index) )
     })
     window.level.coins.forEach( ([x,y],index) => {
       this.objects[1][index] = new Coin(x*16,y*16, () => this.delete(1,index), () => this.increaseScore())
