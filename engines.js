@@ -48,7 +48,6 @@ export class RenderEngine{
     this.#updateScreen()
     this.animationFrameId = requestAnimationFrame( this.cycle )
   }
-
   cycle(timeStamp){
     this.timePastFromLastUpdate += timeStamp - this.time //this might not work
     this.time = timeStamp //if anything is wrong with the rendering check here first
@@ -95,7 +94,7 @@ export class RenderEngine{
     this.world = world
     this.player = world.player
     this.objects = world.objects
-
+    this.collisionTable ={}
 //    this.jumpingDelay=0 //todo make smooth jumping animation
 
     this.fillCollisionTable = this.fillCollisionTable.bind(this)
@@ -110,11 +109,11 @@ export class RenderEngine{
   }
 
   #plaerCollisionDetection(){
-    if(Math.round(this.player.x/16) in this.world.collisionTable){
+    if(Math.round(this.player.x/16) in this.collisionTable){
       const pos = Math.round(this.player.x/16)
-      if(this.world.collisionTable[pos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ] !== undefined ){
-        this.player.x = this.world.collisionTable[pos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][1]
-        this.player.y = this.world.collisionTable[pos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][0]
+      if(this.collisionTable[pos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ] !== undefined ){
+        this.player.x = this.collisionTable[pos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][1]
+        this.player.y = this.collisionTable[pos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][0]
 
         //when you jump on a platform you never land on it 
         //your x/y gets changed by the physics engine 
@@ -184,16 +183,19 @@ export class RenderEngine{
       return;
     }   
 
-    if( !(Math.round(this.player.x/16) in this.world.collisionTable) ){
+    if( !(Math.round(this.player.x/16) in this.collisionTable) ){
       this.player.y = this.world.height-this.player.height-32 //-32 is the lowest point where the player can stand
       this.player.yVelocity = 0
       this.player.jumping = false
-    }else if(this.world.collisionTable[Math.round(this.player.x/16)].y[ roundToTheNearestMultipleOfSixteen(this.player.y)+16 ] == undefined ){
+    }else if(this.collisionTable[Math.round(this.player.x/16)].y[ roundToTheNearestMultipleOfSixteen(this.player.y)+16 ] == undefined ){
       this.player.jumping = true
       this.player.yVelocity += 1
     }
 
 
+  }
+  clearCollisionTable(){
+    this.collisionTable={}
   }
   fillCollisionTable(){
     window.level.ground.forEach( item => {
@@ -206,10 +208,10 @@ export class RenderEngine{
         let xResolve=x*16+item.collisionResolve.x*16;
         for( let y=yStart;y<yEnd;y++){
           let yResolve=(y-item.collisionResolve.y)*16
-          if(x in this.world.collisionTable){
-            this.world.collisionTable[x].add(y*16,yResolve,xResolve)
+          if(x in this.collisionTable){
+            this.collisionTable[x].add(y*16,yResolve,xResolve)
           }else{
-            this.world.collisionTable[x] = new CollisionObject(y*16,yResolve,xResolve)
+            this.collisionTable[x] = new CollisionObject(y*16,yResolve,xResolve)
           }
         }
       }
