@@ -127,8 +127,8 @@ export default class Screen {
 //    this.buffer.drawImage(this.getTexture("door0"),50,50,16,16)//test
     this.buffer.fillStyle="#ffffff"
     this.buffer.font = "6px 'Press Start 2P', cursive"
-    this.buffer.fillText(`Score: ${this.world.score}`,this.buffer.canvas.width-100,30)
-
+    this.buffer.fillText(`Time Left: ${this.world.timer}s`,this.buffer.canvas.width-100,30)
+    this.buffer.fillText(`Score: ${this.world.score}`,this.buffer.canvas.width-100,45)
     //apply the changes 
     this.context.drawImage(this.buffer.canvas, 0, 0, this.buffer.canvas.width, this.buffer.canvas.height, 0, 0, this.context.canvas.width, this.context.canvas.height)
 

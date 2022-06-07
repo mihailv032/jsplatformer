@@ -251,6 +251,7 @@
         "bariers":[53,55]
       }
      ],
+     "timer":50000,
      "mcSpawn":[4,15],
      "endGame":[45,4]
 
@@ -507,6 +508,7 @@
         "bariers":[12,15]
       }
      ],
+     "timer":60,
      "mcSpawn":[45,4],
      "endGame":[20,4]
 
