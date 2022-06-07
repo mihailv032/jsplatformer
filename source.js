@@ -50,8 +50,6 @@ function startLevel(){
   timer = setInterval(() => {
     world.timer--
   }, 1000);
-//  currentLevel == 3 ? alert("endGame") : currentLevel++
-
   world.populateWorld()
   screen.setAnimations()
   physicsEngine.fillCollisionTable()

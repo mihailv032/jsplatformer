@@ -22,11 +22,6 @@ export default class World{
       {}//third arr should have things like fireballs 
   ]
     
-    //Collision table will store all the coordinates of all the objects that need collision detection (everything but the sky and the ground)
-    //the values will be setted by the display function during the first render 
-    //the object will be used by the physics engine to check for any collisions
-    this.collisionTable = {} //todo move this to physicsengine class
-
     this.populateWorld = this.populateWorld.bind(this)
     this.update = this.update.bind(this)//update gets called from the render which makes the context (this) get lost 
     this.increaseScore = this.increaseScore.bind(this)
@@ -41,6 +36,9 @@ export default class World{
   }
   increaseScore(){
     this.score += 5
+  }
+  clearWorld(){
+    this.objects = [{},{},{}]
   }
   populateWorld(){
 
@@ -58,15 +56,15 @@ export default class World{
     if(this.timer == 0){
       this.retry()
     }
-    this.player.update()
     if(this.player.health <= 0){
+      console.log(this.player.health)
       this.retry()
     }else if(this.player.x == window.level.endGame[0]*16){
-      console.log(this.player)
       if(this.player.y == window.level.endGame[1]*16){
         this.nextLevel()
       }
     }
+    this.player.update()
     for(let key in this.objects[0]){//only the enemies have an inner state to update 
       this.objects[0][key].update()
     }
