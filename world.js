@@ -7,6 +7,7 @@ export default class World{
     this. width = 896 //max width 56 max height 18
     this.score = 0
     this.level = level,
+    this.timer = window.level.timer
     this.currentLevel = 1
     this.retry = () => retry()
     this.nextLevel = () => nextLevel()
@@ -54,6 +55,9 @@ export default class World{
     });
   }
   update(){
+    if(this.timer == 0){
+      this.retry()
+    }
     this.player.update()
     if(this.player.health <= 0){
       this.retry()

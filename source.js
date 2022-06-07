@@ -43,7 +43,12 @@ window.addEventListener("keydown", cfg.handlOnKeyDown)
 window.addEventListener('keyup',cfg.handlOnKeyUp)
 window.addEventListener('resize', () => screen.onResize(document.documentElement.clientWidth, document.documentElement.clientHeight, world.height / world.width))
 
+let timer;
+
 function startLevel(){
+  timer = setInterval(() => {
+    world.timer--
+  }, 1000);
 //  currentLevel == 3 ? alert("endGame") : currentLevel++
 
   world.populateWorld()
@@ -59,6 +64,11 @@ function retry(){
 //  document.getElementById("time").innerHTML += world.timer
 }
 function restartLevel(){
+<<<<<<< HEAD
+=======
+  renderEngine.stop()
+  world.timer=window.level.timer
+>>>>>>> main
   world.populateWorld()
   world.player.health = 1
   screen.setAnimations()
