@@ -16,6 +16,7 @@ export class RenderEngine{
     this.updateWorld = updateWorld
     this.updateScreen = updateScreen
     this.physicsEngine = physicsEngine
+
     this.start = this.start.bind(this)
     this.stop = this.stop.bind(this)
 

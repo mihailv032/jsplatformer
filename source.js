@@ -31,12 +31,14 @@ canvas.width = document.documentElement.clientWidth
 canvas.height = document.documentElement.clientHeight * 0.7
 
 
-const world = new World(level,restartLevel,nextLevel)
+const world = new World(level,retry,nextLevel)
 const cfg = new Cfg(world.player)
 const screen = new Screen(canvas,world)
 const physicsEngine = new PhysicsEngine(world)
 const renderEngine = new RenderEngine(30,world.update,screen.update,physicsEngine)
 
+const retryBtn = document.getElementById("retry") 
+retryBtn.addEventListener("click", click => { restartLevel();document.getElementById("popup").style.display="none"; })
 window.addEventListener("keydown", cfg.handlOnKeyDown)
 window.addEventListener('keyup',cfg.handlOnKeyUp)
 window.addEventListener('resize', () => screen.onResize(document.documentElement.clientWidth, document.documentElement.clientHeight, world.height / world.width))
@@ -49,13 +51,18 @@ function startLevel(){
   physicsEngine.fillCollisionTable()
   renderEngine.start()
 }
+
+function retry(){
+  setTimeout( () => renderEngine.stop(), 0)
+  document.getElementById("popup").style.display = "flex";
+}
 function restartLevel(){
-  renderEngine.stop()
   world.populateWorld()
   world.player.health = 1
   screen.setAnimations()
   renderEngine.start()
 }
+
 function nextLevel(){
   renderEngine.stop()
   currentLevel += 1
@@ -64,7 +71,6 @@ function nextLevel(){
   world.collisionTable = {}
   startLevel()
 }
-
 startLevel()
 
 
