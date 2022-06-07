@@ -93,6 +93,7 @@ export class RenderEngine{
   constructor(world){
     this.world = world
     this.player = world.player
+    this.playerJumpingTime = 0
     this.objects = world.objects
     this.collisionTable ={}
 //    this.jumpingDelay=0 //todo make smooth jumping animation
@@ -113,13 +114,13 @@ export class RenderEngine{
       const pos = Math.round(this.player.x/16)
       if(this.collisionTable[pos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ] !== undefined ){
         this.player.x = this.collisionTable[pos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][1]
-        this.player.y = this.collisionTable[pos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][0]
+        this.player.y = this.collisionTable[pos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][0] 
 
         //when you jump on a platform you never land on it 
         //your x/y gets changed by the physics engine 
         //so you technically never land 
         //to fix this just make sure to explicitaly set jumping to false and velocity to 0
-        if(this.player.jumping){ this.player.jumping=false; this.player.yVelocity=0} //bug fix 
+        if(this.player.jumping){ this.player.jumping=false; this.player.yVelocity=0;this.playerJumpingTime=0} //bug fix 
 
       }else {
       }
@@ -179,18 +180,25 @@ export class RenderEngine{
 
   #gravitationSimulation(){ 
     if (this.player.jumping){
-      this.player.yVelocity = 3 //faling
-      this.player.jumpingTime = 0 
+      this.player.yVelocity < 0 ? this.playerJumpingTime++ : this.playerJumpingTime = 0
+      if(this.playerJumpingTime  == 2){
+        this.player.yVelocity = -6
+        return;
+      }else if (this.playerJumpingTime == 5){
+        this.player.yVelocity = -2 
+      }else if(this.playerJumpingTime == 8){
+        this.player.yVelocity = 3.3 //faling
+        this.playerJumpingTime = 0 
+      }
       return;
     }   
-
     if( !(Math.round(this.player.x/16) in this.collisionTable) ){
       this.player.y = this.world.height-this.player.height-32 //-32 is the lowest point where the player can stand
       this.player.yVelocity = 0
       this.player.jumping = false
     }else if(this.collisionTable[Math.round(this.player.x/16)].y[ roundToTheNearestMultipleOfSixteen(this.player.y)+16 ] == undefined ){
       this.player.jumping = true
-      this.player.yVelocity += 1
+      this.player.yVelocity = 3.3
     }
 
 

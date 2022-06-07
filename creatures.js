@@ -34,7 +34,7 @@ class Creature {
   }
   jump(){
     if (!this.jumping){
-      this.yVelocity -= 50
+      this.yVelocity = -9
       this.jumping = true
     }
   }
