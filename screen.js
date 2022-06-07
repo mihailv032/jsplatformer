@@ -183,14 +183,14 @@ class Tiles{
     this.get = this.get.bind(this)
     this.add = this.add.bind(this)
   }
-  add(name,x,y,tilesetId){
+  add(name,x,y,tilesetId,width=16,height=16){
     const buffer = document.createElement('canvas');
     buffer.width = this.width
     buffer.height = this.height
 
     buffer.getContext('2d').drawImage(this.tileset[tilesetId],
       x,y,
-      this.width,this.height,
+      width,height,
       0,0,
       this.width,this.height
       )
@@ -329,13 +329,13 @@ await getTexture()
   tiles.add("coin14",488,8,3)
   tiles.add("coin15",520,8,3)
 
-  tiles.add64("flag0",0,0,4)
-  tiles.add64("flag1",64,0,4)
-  tiles.add64("flag2",128,0,4)
-  tiles.add64("flag3",192,0,4)
-  tiles.add64("flag4",256,0,4)
-  tiles.add64("flag5",320,0,4)
-  tiles.add64("flag6",384,0,4)
-  tiles.add64("flag7",448,0,4)
-  tiles.add64("flag8",512,0,4)
-  tiles.add64("flag9",576,0,4)
+  tiles.add("flag0",0,0,4,64,64)
+  tiles.add("flag1",64,0,4,64,64)
+  tiles.add("flag2",128,0,4,64,64)
+  tiles.add("flag3",192,0,4,64,64)
+  tiles.add("flag4",256,0,4,64,64)
+  tiles.add("flag5",320,0,4,64,64)
+  tiles.add("flag6",384,0,4,64,64)
+  tiles.add("flag7",448,0,4,64,64)
+  tiles.add("flag8",512,0,4,64,64)
+  tiles.add("flag9",576,0,4,64,64)
