@@ -7,7 +7,7 @@ class Creature {
 
     this.animations = {} //the skin of the creature
 
-    this.health = 1
+    this.health = 100
     this.attacks = false
 
     this.damageKd = 0
@@ -38,23 +38,23 @@ class Creature {
       this.jumping = true
     }
   }
-  attack(damage=0.2){//the attack will be mainly handled by the physics engine when it will detect a colision between 2 creatures
+  attack(damage=20){//the attack will be mainly handled by the physics engine when it will detect a colision between 2 creatures
     this.attack=true
   }
-  takeDamage(damage=0.2){
+  takeDamage(damage=20){
     if(this.damageKd == 0){
-    this.health -= damage
-    this.damageKd = 8
+      this.health -= damage
+      this.damageKd = 10 //no damaga for 10 frames
     }
   }
   stop(){
     this.xVelocity = 0
   }
   update(){
-    if(this.damageKd !=0){
-      this.damageKd -=1
+    if(this.damageKd != 0){
+      this.damageKd -=1 
     }
-    if(this.health == 0){
+    if(this.health <= 0){
       this.stop()
       this.disintegrate()
     }

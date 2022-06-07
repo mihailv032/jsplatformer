@@ -52,8 +52,8 @@ export default class Screen {
       }
     }
     texture = texture + this.#handlAnimation(this.player.animations,textureName)
-    this.buffer.fillStyle = this.player.health > 0.5 ? "#009614" : "#fc030f" //defines the colours for the hp bar
-    this.buffer.fillRect(Math.floor(this.player.x), Math.floor(this.player.y+2), (this.player.width*this.player.health), 2) //hp bar
+    this.buffer.fillStyle = this.player.health > 50 ? "#009614" : "#fc030f" //defines the colours for the hp bar
+    this.buffer.fillRect(Math.floor(this.player.x), Math.floor(this.player.y+2), (this.player.width*(this.player.health/100) ), 2) //hp bar
     this.buffer.drawImage(this.getTexture(texture),Math.floor(this.player.x), Math.floor(this.player.y+7), this.player.width, this.player.height); 
   }
 
@@ -67,8 +67,8 @@ export default class Screen {
       texture="mushroomDeath"
     }    
     texture = texture+String(this.#handlAnimation(object.animations,textureName))
-    this.buffer.fillStyle = object.health > 0.5 ? "#009614" : "#fc030f"
-    this.buffer.fillRect(Math.floor(object.x), Math.floor(object.y+2), (object.width*object.health), 2) //hp bar
+    this.buffer.fillStyle = object.health > 50 ? "#009614" : "#fc030f"
+    this.buffer.fillRect(Math.floor(object.x), Math.floor(object.y+2), (object.width*(object.health/100) ), 2) //hp bar
     this.buffer.drawImage(this.getTexture(texture),object.x,object.y+7,16,16)
   }
   #drawCoin(coin){

@@ -133,6 +133,7 @@ export class RenderEngine{
         if(this.player.jumping){
           if( roundToTheNearestMultipleOfSixteen(objects[0][key].y) == roundToTheNearestMultipleOfSixteen(this.player.y)+16){ 
             objects[0][key].takeDamage(1)
+            objects[0][key].takeDamage(100)
             return;
           }
         }
