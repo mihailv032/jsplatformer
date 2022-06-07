@@ -63,25 +63,26 @@ function retry(finish=false){
   popup.style.display = "flex";
   document.getElementById("title").innerHTML = finish ? "Finish" : "Game Over"
   document.getElementById("score").innerHTML = `Score: ${world.score}`
+  document.getElementById("hp").innerHTML = `Health Left: ${world.player.health}`
   document.getElementById("time").innerHTML = `Time Left: ${world.timer}s`
   currentLevel = 1
   window.level = level[currentLevel]
 }
 function restartLevel(){
-  renderEngine.stop()
+  world.clearWorld()
   world.populateWorld()
- 
-  world.player.health = 1
+  screen.setAnimations()
+  physicsEngine.clearCollisionTable()
+  physicsEngine.fillCollisionTable()
+  world.player.health = 100
   world.score = 0
   world.timer=window.level.timer
 
-  screen.setAnimations()
   renderEngine.start()
 }
 
 function nextLevel(){
   renderEngine.stop()
-  currentLevel += 1
 
   setTimeout( () => renderEngine.stop(),0)
   if (currentLevel == 3){
