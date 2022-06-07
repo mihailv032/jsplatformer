@@ -101,7 +101,7 @@ export default class Screen {
     }
     let texture = "flag"
 
-    this.buffer.drawImage(this.getTexture(`flag${this.flagAnimation.currentFrame}`),window.level.endGame[0]*16,(window.level.endGame[1]*16)+4)
+    this.buffer.drawImage(this.getTexture(`flag${this.flagAnimation.currentFrame}`),window.level.endGame[0]*16,(window.level.endGame[1]*16)+4,16,16)
   }
   #drawLevel(){
 //    this.#draw(this.level.background[0])

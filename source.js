@@ -53,8 +53,10 @@ function startLevel(){
 }
 
 function retry(){
-  setTimeout( () => renderEngine.stop(), 0)
+  setTimeout( () => renderEngine.stop(), 0) //yes
   document.getElementById("popup").style.display = "flex";
+  document.getElementById("score").innerHTML += world.score
+//  document.getElementById("time").innerHTML += world.timer
 }
 function restartLevel(){
   world.populateWorld()
