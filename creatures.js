@@ -1,4 +1,3 @@
-
 class Creature {
   constructor(x,y,disintegrate,height=16,width=16){
 
@@ -73,11 +72,9 @@ export class Player extends Creature {
   }
 }
 
-export class Enemy extends Creature{
-  constructor(type,x,y,bariers,disintegrate){
+export class Mushroom extends Creature{
+  constructor(x,y,bariers,disintegrate){
     super(x,y,disintegrate)
-    this.type = type
-//    this.movesRight = movement.movesRight
     this.brain = this.brain.bind(this)
     this.bariers = bariers
   }
@@ -106,6 +103,17 @@ export class Enemy extends Creature{
   }
 }
 
+export class Plant extends Creature {
+  constructor(x,y,vector,disintegrate){
+    super(x,y,disintegrate)
+    this.vector = vector
+    this.x = x
+    this.y = y
+  }
+
+}
+//shouldn't be here
+//todo move it 
 export class Coin{
   constructor(x,y,disintegrate,scoreIncrease){
     this.x = x

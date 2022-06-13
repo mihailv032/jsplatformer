@@ -1,4 +1,4 @@
-import {Enemy, Player,Coin} from "./creatures.js"
+import {Mushroom,Plant, Player,Coin} from "./creatures.js"
 //import { PhysicsEngine } from "./engines.js"
 
 export default class World{
@@ -15,11 +15,12 @@ export default class World{
     this.player = new Player(0,0)//the passed params are the spawn points coordinates
     this.objects = [ //objects are all the enemies and the obstacles in the world e.g fireball 
       //the array will be filled with pseudo arrays
-      {//first arr will have all the enemies
+      {//first arr will have all the mushrooms
 //        "0":new Enemy("mushroom",this.width-7*16,this.height-80, () => this.delete(0,0)),
       },
-      {},//second array will store all the coins
-      {}//third arr should have things like fireballs 
+      {},//second array will store all the coins(strawberry)
+      {},//third plants
+      {}//projectiles
   ]
     
     this.populateWorld = this.populateWorld.bind(this)
@@ -38,15 +39,16 @@ export default class World{
     this.score += 5
   }
   clearWorld(){
-    this.objects = [{},{},{}]
+    this.objects = [{},{},{},{}]
   }
   populateWorld(){
-
-    console.log(window.level)
     this.player.x = window.level.mcSpawn[0]*16//set the spawn spoints here
     this.player.y = window.level.mcSpawn[1]*16
     window.level.mushrooms.forEach( (mushroom,index) => {
-      this.objects[0][index] = new Enemy("mushroom",mushroom.x*16,mushroom.y*16,mushroom.bariers, () => this.delete(0,index) )
+      this.objects[0][index] = new Mushroom(mushroom.x*16,mushroom.y*16,mushroom.bariers, () => this.delete(0,index) )
+    })
+    window.level.plants.forEach( (plant,index) => {
+      this.objects[2][index] = new Plant(plant.x*16,plant.y*16, plant.vector, () => this.delete(2,index) )
     })
     window.level.coins.forEach( ([x,y],index) => {
       this.objects[1][index] = new Coin(x*16,y*16, () => this.delete(1,index), () => this.increaseScore())

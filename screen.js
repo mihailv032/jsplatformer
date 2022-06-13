@@ -71,6 +71,13 @@ export default class Screen {
     this.buffer.fillRect(Math.floor(object.x), Math.floor(object.y+2), (object.width*(object.health/100) ), 2) //hp bar
     this.buffer.drawImage(this.getTexture(texture),object.x,object.y+7,16,16)
   }
+  #drawPlant(plant){
+    let textureName = plant.vector > 0 ? "plantLeft" : "plantRight"
+    let texture = textureName + String(this.#handlAnimation(plant.animations,textureName))
+
+    this.buffer.fillRect(Math.floor(plant.x), Math.floor(plant.y+2), (plant.width*(plant.health/100) ), 2) //hp bar
+    this.buffer.drawImage(this.getTexture(texture),plant.x,plant.y+7,16,16)
+  }
   #drawCoin(coin){
     let textureName = "rotate"
     let texture = "coin"
@@ -124,7 +131,11 @@ export default class Screen {
     for(let key in objects[0]){
       this.#drawMushroom(objects[0][key])
     }
-//    this.buffer.drawImage(this.getTexture("door0"),50,50,16,16)//test
+    for(let key in objects[2]){
+      this.#drawPlant(objects[2][key])
+    }
+
+//    this.buffer.drawImage(this.getTexture("plantRight1"),50,50,16,16)//test
     this.buffer.fillStyle="#ffffff"
     this.buffer.font = "6px 'Press Start 2P', cursive"
     this.buffer.fillText(`Time Left: ${this.world.timer}s`,this.buffer.canvas.width-100,30)
@@ -135,17 +146,21 @@ export default class Screen {
   }
   setAnimations(){//called before the start of every level to set all the textures
     let objects = this.world.objects
-    this.player.animations["idle"] = new Animation(3)
+    this.player.animations["idle"] = new Animation(3) //mc
     this.player.animations["run"] = new Animation(5)
     this.player.animations["attack"] = new Animation(6)
 
-    for(let key in objects[0]){
-      if(objects[0][key].type=="mushroom"){
-        objects[0][key].animations["run"] = new Animation(6)
-        objects[0][key].animations["death"] = new Animation(3)
-      }
+    let mushroom = objects[0]
+    for(let n in objects[0]){//mushroom
+        mushroom[n].animations["run"] = new Animation(6)
+        mushroom[n].animations["death"] = new Animation(3)
     }
-    for( let key in objects[1]){
+    let plant = objects[2]
+    for(let n in objects[2]){//plant
+        plant[n].animations["plantLeft"] = new Animation(7)
+        plant[n].animations["plantRight"] = new Animation(7)
+    }
+    for( let key in objects[1]){//strawberry
       objects[1][key].animations["rotate"] = new Animation(15,1)
     }
   }
@@ -237,19 +252,28 @@ async function getTexture(){
   let mushrooms
   let coin
   let flag
+  let plant
   loadImage("./textures/mcSprites.png").then( img => {
     mc = img
   })
   loadImage("./textures/mushroomSpritesTest.png").then( img => {
-    mushrooms = img
+	  mushrooms = img
   })
   loadImage("./textures/finishFlag.png").then(img => flag = img)
-  loadImage("./textures/tileset.png").then( img => {
+  loadImage("./textures/finishFlag.png").then(img => flag = img)
+  loadImage("./textures/plant.png").then( img => plant = img)
+  loadImage("./textures/tileset.png").then(img => {
     textures = img
   })
 
   await loadImage("./textures/klubnika.png").then( img => coin=img )
-    tiles =new Tiles(16,16,textures,mc,mushrooms,coin,flag)
+    tiles =new Tiles(16,16,textures,mc,mushrooms,coin,flag,plant)
+  //main sprites 0
+  //mc 1
+  //mushroom 2 
+  //coin (strwaberry) 3
+  //flag 4
+  //plant 5
 }
 await getTexture()
   tiles.add("ground",80,240,0)
@@ -311,6 +335,25 @@ await getTexture()
   tiles.add("mushroomDeath1",16,32,2)
   tiles.add("mushroomDeath2",32,32,2)
   tiles.add("mushroomDeath3",48,32,2)
+
+  tiles.add("plantLeft0",0,0,5,44,44)
+  tiles.add("plantLeft1",44,0,5,44,44)
+  tiles.add("plantLeft2",88,0,5,44,44)
+  tiles.add("plantLeft3",132,0,5,44,44)
+  tiles.add("plantLeft4",176,0,5,44,44)
+  tiles.add("plantLeft5",220,0,5,44,44)
+  tiles.add("plantLeft6",264,0,5,44,44)
+  tiles.add("plantLeft7",308,0,5,44,44)
+
+  tiles.add("plantRight0",0,44,5,44,44)
+  tiles.add("plantRight1",44,44,5,44,44)
+  tiles.add("plantRight2",88,44,5,44,44)
+  tiles.add("plantRight3",132,44,5,44,44)
+  tiles.add("plantRight4",176,44,5,44,44)
+  tiles.add("plantRight5",220,44,5,44,44)
+  tiles.add("plantRight6",264,44,5,44,44)
+  tiles.add("plantRight7",308,44,5,44,44)
+
 
   //technically its a strawberry
   tiles.add("coin0",8,8,3)
