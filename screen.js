@@ -129,11 +129,11 @@ export default class Screen {
     this.#drawFlag()
     this.#drawPlayer()
 
-    for(let key in objects[1]){
-      this.#drawCoin(objects[1][key])
-    }
     for(let key in objects[0]){
-      this.#drawMushroom(objects[0][key])
+      this.#drawCoin(objects[0][key])
+    }
+    for(let key in objects[1]){
+      this.#drawMushroom(objects[1][key])
     }
     for(let key in objects[2]){
       this.#drawPlant(objects[2][key])
@@ -154,8 +154,11 @@ export default class Screen {
     this.player.animations["run"] = new Animation(5)
     this.player.animations["attack"] = new Animation(6)
 
-    let mushroom = objects[0]
-    for(let n in objects[0]){//mushroom
+    for( let key in objects[0]){//strawberry
+      objects[0][key].animations["rotate"] = new Animation(15,1)
+    }
+    let mushroom = objects[1]
+    for(let n in objects[1]){//mushroom
         mushroom[n].animations["run"] = new Animation(6)
         mushroom[n].animations["death"] = new Animation(3)
     }
@@ -163,9 +166,6 @@ export default class Screen {
     for(let n in objects[2]){//plant
         plant[n].animations["plantLeft"] = new Animation(7)
         plant[n].animations["plantRight"] = new Animation(7)
-    }
-    for( let key in objects[1]){//strawberry
-      objects[1][key].animations["rotate"] = new Animation(15,1)
     }
   }
 
