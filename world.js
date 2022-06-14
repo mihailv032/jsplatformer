@@ -14,21 +14,18 @@ export default class World{
     this.delete = this.delete.bind(this)
     this.player = new Player(0,0)//the passed params are the spawn points coordinates
     this.objects = [ //objects are all the enemies and the obstacles in the world e.g fireball 
-      //the array will be filled with pseudo arrays
-      {//first arr will have all the mushrooms
-//        "0":new Enemy("mushroom",this.width-7*16,this.height-80, () => this.delete(0,0)),
-      },
-      {},//second array will store all the coins(strawberry)
-      {},//third plants
-      {}//projectiles
-  ]
+		     {},//coins
+		     {},//mushrooms
+		     {},//plants
+		     {}//projectiles
+    ]
     
     this.populateWorld = this.populateWorld.bind(this)
     this.update = this.update.bind(this)//update gets called from the render which makes the context (this) get lost 
     this.increaseScore = this.increaseScore.bind(this)
   }
   delete(indexInArr,objectIndex){
-//    console.log(`${indexInArr} ${objectIndex}`)
+    console.log(`${indexInArr} ${objectIndex}`)
     if(this.objects[indexInArr][objectIndex].deathKd == 0){
       delete this.objects[indexInArr][objectIndex] 
     }else{
@@ -38,21 +35,25 @@ export default class World{
   increaseScore(){
     this.score += 5
   }
+  addProjectile(){
+
+  }
   clearWorld(){
     this.objects = [{},{},{},{}]
   }
   populateWorld(){
     this.player.x = window.level.mcSpawn[0]*16//set the spawn spoints here
     this.player.y = window.level.mcSpawn[1]*16
+
+    window.level.coins.forEach( ([x,y],index) => {
+      this.objects[0][index] = new Coin(x*16,y*16, () => this.delete(0,index), () => this.increaseScore())
+    });
     window.level.mushrooms.forEach( (mushroom,index) => {
-      this.objects[0][index] = new Mushroom(mushroom.x*16,mushroom.y*16,mushroom.bariers, () => this.delete(0,index) )
+      this.objects[1][index] = new Mushroom(mushroom.x*16,mushroom.y*16,mushroom.bariers, () => this.delete(1,index) )
     })
     window.level.plants.forEach( (plant,index) => {
       this.objects[2][index] = new Plant(plant.x*16,plant.y*16, plant.vector, () => this.delete(2,index) )
     })
-    window.level.coins.forEach( ([x,y],index) => {
-      this.objects[1][index] = new Coin(x*16,y*16, () => this.delete(1,index), () => this.increaseScore())
-    });
   }
   update(){
     if(this.timer == 0){
@@ -67,8 +68,10 @@ export default class World{
       }
     }
     this.player.update()
-    for(let key in this.objects[0]){//only the enemies have an inner state to update 
-      this.objects[0][key].update()
-    }
+    this.objects.slice(1).forEach( object => {
+      for(let key in object){//only the enemies have an inner state to update 
+	object[key].update()
+      }
+    })
   } 
 }

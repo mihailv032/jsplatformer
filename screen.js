@@ -15,6 +15,9 @@ export default class Screen {
     this.buffer.canvas.height = world.height
     this.buffer.canvas.width = world.width
 
+    this.animations = {
+
+    }
     this.flagAnimation = {delay:0,totalFrames:9,currentFrame:0,delayThreshold:3} //technically door is not an object from the world so it will be drawn here
 
     this.update = this.update.bind(this)
@@ -125,6 +128,7 @@ export default class Screen {
     this.#drawLevel()
     this.#drawFlag()
     this.#drawPlayer()
+
     for(let key in objects[1]){
       this.#drawCoin(objects[1][key])
     }
@@ -135,7 +139,7 @@ export default class Screen {
       this.#drawPlant(objects[2][key])
     }
 
-//    this.buffer.drawImage(this.getTexture("plantRight1"),50,50,16,16)//test
+    this.buffer.drawImage(this.getTexture("plantBullet"),50,50,16,16)//test
     this.buffer.fillStyle="#ffffff"
     this.buffer.font = "6px 'Press Start 2P', cursive"
     this.buffer.fillText(`Time Left: ${this.world.timer}s`,this.buffer.canvas.width-100,30)
@@ -354,7 +358,7 @@ await getTexture()
   tiles.add("plantRight6",264,44,5,44,44)
   tiles.add("plantRight7",308,44,5,44,44)
 
-
+  tiles.add("plantBullet",0,86,5,44,44)
   //technically its a strawberry
   tiles.add("coin0",8,8,3)
   tiles.add("coin1",40,8,3)
