@@ -33,7 +33,7 @@ canvas.height = document.documentElement.clientHeight * 0.7
 
 
 const world = new World(level,retry,nextLevel)
-const cfg = new Cfg(world.player)
+const cfg = new Cfg(world.player) //blyadi
 const screen = new Screen(canvas,world)
 const physicsEngine = new PhysicsEngine(world)
 const renderEngine = new RenderEngine(30,world.update,screen.update,physicsEngine)

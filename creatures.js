@@ -109,6 +109,17 @@ export class Plant extends Creature {
     this.vector = vector
     this.x = x
     this.y = y
+
+    this.update = this.update.bind(this)
+  }
+  #shoot(){
+    console.log("shooting")
+  }
+  update(){
+    console.log("updating")
+    this.#shoot()
+    super.update()
+    
   }
 
 }

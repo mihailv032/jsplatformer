@@ -95,7 +95,10 @@ export class RenderEngine{
     this.player = world.player
     this.playerJumpingTime = 0
     this.objects = world.objects
-    this.collisionTable ={}
+
+    this.collisionTable ={
+    }
+
 //    this.jumpingDelay=0 //todo make smooth jumping animation
 
     this.fillCollisionTable = this.fillCollisionTable.bind(this)
