@@ -31,7 +31,6 @@ window.level = level[currentLevel]
 canvas.width = document.documentElement.clientWidth 
 canvas.height = document.documentElement.clientHeight * 0.7
 
-
 const world = new World(level,retry,nextLevel)
 const cfg = new Cfg(world.player) //blyadi
 const screen = new Screen(canvas,world)
@@ -72,9 +71,6 @@ function restartLevel(){
   screen.setAnimations()
   physicsEngine.clearCollisionTable()
   physicsEngine.fillCollisionTable()
-  world.player.health = 100
-  world.score = 0
-  world.timer=window.level.timer
 
   renderEngine.start()
 }
@@ -95,7 +91,6 @@ function nextLevel(){
   window.level = level[currentLevel]
   world.timer = window.level.timer
 //  world.player.health = 1 //
-
   //start lvl will set a new interval so we need to clear the old one to prevent mu
   clearInterval(timer)
   startLevel()

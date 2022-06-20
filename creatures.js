@@ -33,7 +33,7 @@ class Creature {
   }
   jump(){
     if (!this.jumping){
-      this.yVelocity = -9
+      this.yVelocity = -8
       this.jumping = true
     }
   }
@@ -113,10 +113,8 @@ export class Plant extends Creature {
     this.update = this.update.bind(this)
   }
   #shoot(){
-    console.log("shooting")
   }
   update(){
-    console.log("updating")
     this.#shoot()
     super.update()
     

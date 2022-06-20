@@ -69,8 +69,8 @@
 		],
 		"tile":"grassVertical",
 		"collisionResolve":{
-		    "x":"1",
-		    "y":"1"
+		    "x":-0.6,
+		    "y":0
 		}
 	    },
 	    {
@@ -80,8 +80,8 @@
 		],
 		"tile":"grassTopLeftCorner",
 		"collisionResolve":{
-		    "y":"0",
-		    "x":"1"
+		    "y":1,
+		    "x":0
 		}
 	    },
             {
@@ -91,8 +91,8 @@
 		    14,15
 		],
 		"collisionResolve":{
-		    "x":"0",
-		    "y":"1"
+		    "x":0,
+		    "y":1
 		}
             },
             {
@@ -110,13 +110,24 @@
 		"tile":"grassVertical",
 		"ranges":[
 		    50,51,
-		    11,14
+		    11,13
+		],
+		"collisionResolve":{
+		    "x":-0.6,
+		    "y":-1
+		}
+            },
+	    {
+		"tile":"grassVertical",
+		"ranges":[
+		    50,51,
+		    13,14
 		],
 		"collisionResolve":{
 		    "x":-0.6,
 		    "y":0
 		}
-            },
+	    },
             {
 		"tile":"grassTopLeftCorner",
 		"ranges":[
@@ -197,7 +208,7 @@
 	    {
 		"tile":"greenLeaf",
 		"ranges":[
-		    39,43,
+		    45,49,
 		    11,12
 		],
 		"collisionResolve":{
@@ -229,10 +240,10 @@
 	    [16,15],
 	    [15,15],
 	    [14,15],
-	    [39,10],
-	    [40,10],
-	    [41,10],
-	    [42,10]
+	    [45,10],
+	    [46,10],
+	    [47,10],
+	    [48,10]
 	],
 	"mushrooms":[
 	    {
@@ -241,9 +252,9 @@
 		"bariers":[36,49]
 	    },
 	    {
-		"x":53,
+		"x":52,
 		"y":9,
-		"bariers":[50,53]
+		"bariers":[50,52]
 	    },
 	    {
 		"x":53,
@@ -260,7 +271,7 @@
 		"projectileVector":5
 	    }
 	],
-	"timer":30,
+	"timer":3000,
 	"mcSpawn":[4,15],
 	"endGame":[45,4]
 	

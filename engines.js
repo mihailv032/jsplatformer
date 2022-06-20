@@ -114,17 +114,23 @@ export class RenderEngine{
 
   #plaerCollisionDetection(){
     if(Math.round(this.player.x/16) in this.collisionTable){
-      const pos = Math.round(this.player.x/16)
-      if(this.collisionTable[pos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ] !== undefined ){
-        this.player.x = this.collisionTable[pos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][1]
-        this.player.y = this.collisionTable[pos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][0] 
+      const xpos = Math.round(this.player.x/16)
+      if(this.collisionTable[xpos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ] !== undefined ){
+        this.player.x = this.collisionTable[xpos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][1]
 
-        //when you jump on a platform you never land on it 
-        //your x/y gets changed by the physics engine 
-        //so you technically never land 
-        //to fix this just make sure to explicitaly set jumping to false and velocity to 0
-        if(this.player.jumping){ this.player.jumping=false; this.player.yVelocity=0;this.playerJumpingTime=0} //bug fix 
-
+	 console.log(`${this.collisionTable[xpos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][0]} ${roundToTheNearestMultipleOfSixteen(this.player.y)}`)
+	if (this.collisionTable[xpos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][0] <= roundToTheNearestMultipleOfSixteen(this.player.y)){
+          this.player.y = this.collisionTable[xpos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][0] 
+	  
+	  //	this.player.stop()
+          //when you jump on a platform you never land on it 
+          //your x/y gets changed by the physics engine 
+          //so you technically never land 
+          //to fix this just make sure to explicitaly set jumping to false and yvelocity to 0
+	  this.player.jumping=false; this.player.yVelocity=0;this.playerJumpingTime=0 //bug fix 
+	}else {
+	  this.player.stop()
+	}
       }else {
       }
     }
@@ -132,7 +138,6 @@ export class RenderEngine{
 
   #objectsCollision(){
     let objects = this.world.objects
-    console.log(objects)
     for(let key in objects[1]){
 //      this.#edgeCheck(objects[0][key]) //not really needed for this objects
 
