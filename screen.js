@@ -282,11 +282,23 @@ async function getTexture(){
 await getTexture()
   tiles.add("ground",80,240,0)
   tiles.add("groundGrass",48,224,0)
+  tiles.add('topGroundGrass',242,224,0)
   tiles.add('background',368,224,0)
   tiles.add("lightDarkGround",368,160,0)
+
+  tiles.add('grassTopRightCorner',128,32,0)
   tiles.add("grassTopLeftCorner",64,32,0)
+  tiles.add("grassInnerTopRightCorner",208,224,0)
+  tiles.add("grassTopRightCornerOutter",544,272,0)
+
+  tiles.add("grassBottomRightCornerOutter",560,272,0)
   tiles.add('grassBottomRightCorner',256,272,0)
+  tiles.add('grassBottomLeftCorner',208,272,0)
+  tiles.add("leafBottomLeftCorner",64,96,0)
+
   tiles.add("grassVertical",256,256,0)
+  tiles.add("grassVerticalRight",208,256,0)
+
   tiles.add("greenLeaf",480,176,0)
   tiles.add("leafBottomLeftCorner",496,176,0)
   tiles.add("leafVertical",496,160,0)

@@ -117,8 +117,6 @@ export class RenderEngine{
       const xpos = Math.round(this.player.x/16)
       if(this.collisionTable[xpos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ] !== undefined ){
         this.player.x = this.collisionTable[xpos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][1]
-
-	 console.log(`${this.collisionTable[xpos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][0]} ${roundToTheNearestMultipleOfSixteen(this.player.y)}`)
 	if (this.collisionTable[xpos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][0] <= roundToTheNearestMultipleOfSixteen(this.player.y)){
           this.player.y = this.collisionTable[xpos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][0] 
 	  
@@ -179,8 +177,10 @@ export class RenderEngine{
       object.velocity = 0
       return;
     }
-    if(object.y < 0){
-      object.y = 0
+    if(object.y < 18){
+      object.jumping = true
+      object.yVelocity = 3.3
+      object.y = 18
       return;
     }
     if(object.y > this.world.height-this.player.height){

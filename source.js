@@ -13,7 +13,7 @@ async function getJson(url){
   }
 }
 const level = await getJson("./level.json")
-let currentLevel = 1
+let currentLevel = 3
 
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext('2d');
@@ -76,6 +76,10 @@ function restartLevel(){
 }
 
 function nextLevel(){
+  if(world.score < window.level.threshold){
+    restartLevel()
+    return;
+  }
   renderEngine.stop()
 
   setTimeout( () => renderEngine.stop(),0)

@@ -30,7 +30,6 @@ export default class World{
     this.increaseScore = this.increaseScore.bind(this)
   }
   delete(indexInArr,objectIndex){
-    console.log(`${indexInArr} ${objectIndex}`)
     if(this.objects[indexInArr][objectIndex].deathKd == 0){
       delete this.objects[indexInArr][objectIndex] 
     }else{
@@ -68,12 +67,16 @@ export default class World{
   update(){
     if(this.timer == 0){
       this.retry()
+      return;
     }
     if(this.player.health <= 0){
       this.retry()
-    }else if(this.player.x == window.level.endGame[0]*16){
+      return;
+    }
+    if(this.player.x == window.level.endGame[0]*16){
       if(this.player.y == window.level.endGame[1]*16){
         this.nextLevel()
+	return;
       }
     }
     this.player.update()

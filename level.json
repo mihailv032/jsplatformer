@@ -169,7 +169,7 @@
 		],
 		"collisionResolve":{
 		    "x":-0.6,
-		    "y":0
+		    "y":-1
 		}
             },
             {
@@ -272,6 +272,7 @@
 	    }
 	],
 	"timer":3000,
+	"threshold":50,
 	"mcSpawn":[4,15],
 	"endGame":[45,4]
 	
@@ -529,14 +530,11 @@
 	    }
 	],
 	"timer":60,
+	"threshold":25,
 	"mcSpawn":[45,4],
 	"endGame":[20,4]
 	
     },
-    
-    
-    
-    
     
     "3":{
 	"background": [
@@ -564,16 +562,52 @@
 	    {
 		"tile":"lightDarkGround",
 		"ranges":[
-		    51,56,
-		    11,16
+		    55,56,
+		    1,15
 		]
 	    },
 	    {
 		"tile":"lightDarkGround",
 		"ranges":[
-		    54,56,
-		    8,11
+		    0,1,
+		    1,17
 		]
+	    },
+	    {
+		"tile":"grassBottomLeftCorner",
+		"ranges":[
+		    1,2,
+		    16,17
+		]
+	    },
+	    {
+		"tile":"grassBottomLeftCorner",
+		"ranges":[
+		    1,2,
+		    7,8
+		]
+	    },
+	    {
+		"tile":"lightDarkGround",
+		"ranges":[
+		    1,5,
+		    8,10
+		]
+	    },
+	    {
+		"tile":"lightDarkGround",
+		"ranges":[
+		    9,16,
+		    4,10
+		]
+	    },
+	    {
+		"tile":"lightDarkGround",
+		"ranges":[
+		    15,25,
+		    5,10
+		]
+
 	    }
 	],
 	"platforms": [
@@ -582,8 +616,8 @@
 	    {
 		"tile": "groundGrass",
 		"ranges": [
-		    0,35,
-		    15,16
+		    2,35,
+		    16,17
 		],
 		"collisionResolve": {
 		    "y": "1",
@@ -593,7 +627,7 @@
 	    {
 		"ranges": [
 		    35,36,
-		    15,17
+		    16,17
 		],
 		"tile":"grassBottomRightCorner",
 		"collisionResolve": {
@@ -606,17 +640,6 @@
 		    35,36,
 		    15,16
 		],
-		"tile":"grassVertical",
-		"collisionResolve":{
-		    "x":"1",
-		    "y":"1"
-		}
-	    },
-	    {
-		"ranges":[
-		    35,36,
-		    14,15
-		],
 		"tile":"grassTopLeftCorner",
 		"collisionResolve":{
 		    "y":"0",
@@ -626,8 +649,8 @@
             {
 		"tile":"groundGrass",
 		"ranges":[
-		    36,50,
-		    14,15
+		    36,54,
+		    15,16
 		],
 		"collisionResolve":{
 		    "x":"0",
@@ -637,8 +660,8 @@
             {
 		"tile":"grassBottomRightCorner",
 		"ranges":[
-		    50,51,
-		    14,15
+		    54,55,
+		    15,16
 		],
 		"collisionResolve":{
 		    "x":"0",
@@ -648,152 +671,276 @@
             {
 		"tile":"grassVertical",
 		"ranges":[
-		    50,51,
-		    11,14
+		    54,55,
+		    1,15
 		],
 		"collisionResolve":{
 		    "x":-0.6,
-		    "y":0
+		    "y":-1
 		}
             },
-            {
-		"tile":"grassTopLeftCorner",
-		"ranges":[
-		    50,51,
-		    10,11
-		],
-		"collisionResolve":{
-		    "x":0,
-		    "y":1
-		}
-            },
-            {
-		"tile":"groundGrass",
-		"ranges":[
-		    51,53,
-		    10,11
-		],
-		"collisionResolve":{
-		    "x":0,
-		    "y":1
-		}
-            },
-            {
+	    {
 		"tile":"grassBottomRightCorner",
 		"ranges":[
-		    53,54,
+		    54,55,
+		    5,2
+		],
+		"collisionResolve":{
+		    "x":0,
+		    "y":1
+		}
+	    },
+
+
+	    
+	    {
+		"tile":"groundGrass",
+		"ranges":[
+		    17,25,
+		    4,5
+		],
+		"collisionResolve":{
+		    "x":0,
+		    "y":1
+		}
+	    },
+	    {
+		"tile":"grassTopRightCorner",
+		"ranges":[
+		    16,17,
+		    3,4
+		],
+		"collisionResolve":{
+		    "x":0,
+		    "y":1
+		}
+	    },
+	    {
+		"tile":"grassBottomLeftCorner",
+		"ranges":[
+		    16,17,
+		    4,5
+		],
+		"collisionResolve":{
+		    "x":0,
+		    "y":-1
+		}
+	    },
+	    {
+		"tile":"groundGrass",
+		"ranges":[
+		    9,16,
+		    3,4
+		],
+		"collisionResolve":{
+		    "x":0,
+		    "y":1
+		}
+	    },
+	    {
+		"tile":"grassTopLeftCorner",
+		"ranges":[
+		    8,9,
+		    3,4
+		],
+		"collisionResolve":{
+		    "x":0,
+		    "y":1
+		}
+	    },
+	    {
+		"tile":"grassVertical",
+		"ranges":[
+		    8,9,
+		    4,10
+		],
+		"collisionResolve":{
+		    "x":-0.6,
+		    "y":-1
+		}
+	    },
+	    {
+		"tile":"topGroundGrass",
+		"ranges":[
+		    9,25,
 		    10,11
+		],
+		"collisionResolve":{
+		    "x":0,
+		    "y":-1
+		}
+
+	    },
+	    {
+		"tile":"grassVerticalRight",
+		"ranges":[
+		    25,26,
+		    5,10
+		],
+		"collisionResolve":{
+		    "x":0,
+		    "y":-1
+		}
+	    },
+	    {
+		"tile":"grassBottomRightCornerOutter",
+		"ranges":[
+		    25,26,
+		    10,11
+		],
+		"collisionResolve":{
+		    "x":0,
+		    "y":-1
+		}
+	    },
+	    {
+		"tile":"grassTopRightCornerOutter",
+		"ranges":[
+		    8,9,
+		    10,11
+		],
+		"collisionResolve":{
+		    "x":0,
+		    "y":-1
+		}
+		
+	    },
+	    {
+		"tile":"grassTopRightCorner",
+		"ranges":[
+		    25,26,
+		    4,5
+		],
+		"collisionResolve":{
+		    "x":0,
+		    "y":1
+		}
+
+	    },
+
+
+	    
+	    
+	    {
+		"tile":"grassVerticalRight",
+		"ranges":[
+		    1,2,
+		    1,7
+		],
+		"collisionResolve":{
+		    "x":0.6,
+		    "y":-1
+		}
+            },
+	    {
+		"tile":"groundGrass",
+		"ranges":[
+		    2,4,
+		    7,8
 		],
 		"collisionResolve":{
 		    "x":0,
 		    "y":1
 		}
             },
-            {
-		"tile":"grassVertical",
+	    {
+		"tile":"grassTopRightCorner",
 		"ranges":[
-		    53,54,
+		    4,5,
+		    7,8
+		],
+		"collisionResolve":{
+		    "x":0,
+		    "y":1
+		}
+	    },
+	    {
+		"tile":"grassVerticalRight",
+		"ranges":[
+		    4,5,
 		    8,10
 		],
 		"collisionResolve":{
-		    "x":-0.6,
-		    "y":0
+		    "x":0.6,
+		    "y":-1
 		}
             },
-            {
-		"tile":"grassTopLeftCorner",
+	    {
+		"tile":"grassBottomRightCornerOutter",
 		"ranges":[
-		    53,54,
-		    7,8
+		    4,5,
+		    10,11
 		],
 		"collisionResolve":{
 		    "x":0,
-		    "y":1
+		    "y":-1
 		}
-            },
-            {
-		"tile":"groundGrass",
+	    },
+	    {
+		"tile":"topGroundGrass",
 		"ranges":[
-		    54,56,
-		    7,8
-          ],
-          "collisionResolve":{
-            "x":0,
-            "y":1
-          }
-        },
-        {
-          "tile":"greenLeaf",
-          "ranges":[
-            40, 51,
-            5,6
-          ],
-          "collisionResolve":{
-            "x":0,
-            "y":1
-          }
-        },
-       {
-          "tile":"greenLeaf",
-          "ranges":[
-            39,43,
-            11,12
-          ],
-          "collisionResolve":{
-            "x":"0",
-            "y":"1"
-          }
-        },
-        {
-          "tile":"greenLeaf",
-          "ranges":[
-            3,6,
-            11,12
-          ],
-          "collisionResolve":{
-            "x":"0",
-            "y":"1"
-          }
-        }
-     ],
-     "coins":[
-      [24,15],
-      [23,15],      
-      [22,15],
-      [21,15],
-      [20,15],
-      [19,15],
-      [18,15],
-      [17,15],
-      [16,15],
-      [15,15],
-      [14,15],
-      [39,10],
-      [40,10],
-      [41,10],
-      [42,10]
-     ],
-     "mushrooms":[
-      {
-        "x":49,
-        "y":13,
-        "bariers":[36,49]
-      },
-      {
-        "x":53,
-        "y":9,
-        "bariers":[50,53]
-      },
-      {
-        "x":53,
-        "y":6,
-        "bariers":[53,55]
-      }
-     ],
-     "timer":20,
-     "mcSpawn":[4,15],
-     "endGame":[45,4]
+		    2,4,
+		    10,11
+		],
+		"collisionResolve":{
+		    "x":0,
+		    "y":-1
+		}
+	    },
+	    {
+		"tile":"grassInnerTopRightCorner",
+		"ranges":[
+		    1,2,
+		    10,11
+		],
+		"collisionResolve":{
+		    "x":0,
+		    "y":-1
+		}
 
+	    },
+	    {
+		"tile":"grassVerticalRight",
+		"ranges":[
+		    1,2,
+		    11,16
+		],
+		"collisionResolve":{
+		    "x":0.6,
+		    "y":-1
+		}
+            }
 
-  }
+	],
+	"coins":[
+	    [3,6],
+	    [50,14],
+	    [49,14],
+	    [48,14],
+	    [47,14]
+	],
+	"mushrooms":[
+	    {
+		"x":2,
+		"y":6,
+		"bariers":[2,4]
+	    },
+	    {
+		"x":53,
+		"y":14,
+		"bariers":[35,53]
+	    },
+	    {
+		"x":35,
+		"y":14,
+		"bariers":[35,53]
+	    }
+	],
+	"timer":200000,
+	"threshold":25,
+	"mcSpawn":[20,4],
+	"endGame":[2,15]
+	
+	
+    }
 }

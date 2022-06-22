@@ -38,7 +38,7 @@ class Creature {
     }
   }
   attack(damage=20){//the attack will be mainly handled by the physics engine when it will detect a colision between 2 creatures
-    this.attack=true
+//    this.attack=true
   }
   takeDamage(damage=20){
     if(this.damageKd == 0){
