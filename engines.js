@@ -177,7 +177,8 @@ export class RenderEngine{
       object.velocity = 0
       return;
     }
-    if(object.y < 18){
+    if(object.y < 18){//16 the size of the mc and 2 the height of the hp bar
+      debugger
       object.jumping = true
       object.yVelocity = 3.3
       object.y = 18
@@ -204,16 +205,16 @@ export class RenderEngine{
       }
       return;
     }   
-    if( !(Math.round(this.player.x/16) in this.collisionTable) ){
-      this.player.y = this.world.height-this.player.height-32 //-32 is the lowest point where the player can stand
-      this.player.yVelocity = 0
-      this.player.jumping = false
-    }else if(this.collisionTable[Math.round(this.player.x/16)].y[ roundToTheNearestMultipleOfSixteen(this.player.y)+16 ] == undefined ){
-      this.player.jumping = true
-      this.player.yVelocity = 3.3
+    if( (Math.round(this.player.x/16) in this.collisionTable) ){//technically should alway be true
+      if(this.collisionTable[Math.round(this.player.x/16)].y[ roundToTheNearestMultipleOfSixteen(this.player.y)+16 ] == undefined ){
+	//if there is no ground under the player 
+	this.player.jumping = true
+	this.player.yVelocity = 3.3
+
+      }
+    }else {
+      alert("something went wrong")
     }
-
-
   }
   clearCollisionTable(){
     this.collisionTable={}

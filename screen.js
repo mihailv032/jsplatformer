@@ -135,11 +135,11 @@ export default class Screen {
     for(let key in objects[1]){
       this.#drawMushroom(objects[1][key])
     }
-    for(let key in objects[2]){
-      this.#drawPlant(objects[2][key])
-    }
+  //  for(let key in objects[2]){
+  //    this.#drawPlant(objects[2][key])
+  //  }
 
-    this.buffer.drawImage(this.getTexture("plantBullet"),50,50,16,16)//test
+//    this.buffer.drawImage(this.getTexture("plantBullet"),50,50,16,16)//test
     this.buffer.fillStyle="#ffffff"
     this.buffer.font = "6px 'Press Start 2P', cursive"
     this.buffer.fillText(`Time Left: ${this.world.timer}s`,this.buffer.canvas.width-100,30)
@@ -160,7 +160,7 @@ export default class Screen {
     let mushroom = objects[1]
     for(let n in objects[1]){//mushroom
         mushroom[n].animations["run"] = new Animation(6)
-        mushroom[n].animations["death"] = new Animation(3)
+        mushroom[n].animations["death"] = new Animation(3,4)
     }
     let plant = objects[2]
     for(let n in objects[2]){//plant

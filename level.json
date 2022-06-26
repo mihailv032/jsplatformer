@@ -271,7 +271,7 @@
 		"projectileVector":5
 	    }
 	],
-	"timer":3000,
+	"timer":60,
 	"threshold":50,
 	"mcSpawn":[4,15],
 	"endGame":[45,4]
@@ -370,7 +370,7 @@
 		],
 		"collisionResolve":{
 		    "x":-0.6,
-		    "y":0
+		    "y":-1
 		}
             },
             {
@@ -413,8 +413,8 @@
 		    6,7
 		],
 		"collisionResolve":{
-		    "x":1,
-		    "y":1
+		    "x":-0.6,
+		    "y":0
 		}
             },
             {
@@ -530,7 +530,7 @@
 	    }
 	],
 	"timer":60,
-	"threshold":25,
+	"threshold":240,
 	"mcSpawn":[45,4],
 	"endGame":[20,4]
 	
@@ -578,13 +578,6 @@
 		"ranges":[
 		    1,2,
 		    16,17
-		]
-	    },
-	    {
-		"tile":"grassBottomLeftCorner",
-		"ranges":[
-		    1,2,
-		    7,8
 		]
 	    },
 	    {
@@ -679,20 +672,19 @@
 		    "y":-1
 		}
             },
+	    
+	    
 	    {
-		"tile":"grassBottomRightCorner",
+		"tile":"grassBottomLeftCorner",
 		"ranges":[
-		    54,55,
-		    5,2
+		    1,5,
+		    7,8
 		],
 		"collisionResolve":{
-		    "x":0,
+		    "x":-0.6,
 		    "y":1
 		}
 	    },
-
-
-	    
 	    {
 		"tile":"groundGrass",
 		"ranges":[
@@ -723,7 +715,7 @@
 		],
 		"collisionResolve":{
 		    "x":0,
-		    "y":-1
+		    "y":1
 		}
 	    },
 	    {
@@ -936,7 +928,7 @@
 		"bariers":[35,53]
 	    }
 	],
-	"timer":200000,
+	"timer":30,
 	"threshold":25,
 	"mcSpawn":[20,4],
 	"endGame":[2,15]

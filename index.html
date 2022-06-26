@@ -8,6 +8,7 @@
     body{
       display: flex;
       align-items: center;
+      flex-direction: column;
       height: 100vh;
       margin: auto;
       min-width: 800px;
@@ -32,11 +33,17 @@
       opacity: 1;
       width: 500px;
       height:500px;
-      background: rgb(126,0,255);
+/*      background: rgb(126,0,255);
       background: linear-gradient(90deg, rgba(126,0,255,1) 10%, rgba(180,16,218,1) 93%); 
-
+*/
+      background: black;
       border-radius: 30px;
     }
+   h1{
+     color: white;
+     font-family: sans-serif;
+     text-transform: capitalize;
+   }
     .popupInner > h1 {
       color: white;
       font-weight: bold;
@@ -62,6 +69,9 @@
   <title>ZD</title>
 </head>
 <body>
+  <h1>press D to move right</h1>
+  <h1>press a to move left</h1>
+  <h1>press space to jump </h1>
   <div id="popup">
     <div class="popupInner">
       <h1 id="title">Game over</h1>
