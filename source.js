@@ -80,6 +80,7 @@ function restartLevel(){
 
 function nextLevel(){
   if(world.score < window.level.threshold){
+    alert("your score is too low")
     restartLevel()
     return;
   }

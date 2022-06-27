@@ -291,7 +291,21 @@
 		"tile": "background",
 		"ranges": [
 		    0, 56, 
-		    1,17
+		    0,17
+		]
+	    },
+	    {
+		"tile":"ground",
+		"ranges": [
+		    0,56, 
+		    17,18
+		]
+	    },
+	    {
+		"tile":"lightDarkGround",
+		"ranges":[
+		    0,56,
+		    16,17
 		]
 	    }
 	],
