@@ -1,7 +1,7 @@
 export default class Cfg {
   constructor(player){
     this.player = player
-    this.keyPressed=false
+    this.nOfKeyPressed = 0;
     this.bindings = {
       "87": new Button(this.player.moveLeft),
       "83": new Button(this.player.moveRight),
@@ -18,28 +18,31 @@ export default class Cfg {
   }
 
   handlOnKeyUp(event){
-    if (event.keyCode == 32) { this.bindings[32].pressed=false;return null;}
-    if( this.keys.find( (key) => key == event.keyCode ) ){
-      this.bindings[event.keyCode].pressed = false 
-      this.player.stop()
-    }
+    if (this.keys.indexOf(String(event.keyCode)) === -1) return;
+    if (event.keyCode == 32) { this.bindings[32].pressed=false; return null;}
+    if(this.nOfKeyPressed === 1){this.player.stop()};
+    this.nOfKeyPressed--;
+    this.bindings[event.keyCode].pressed = false 
+    return;
   }
   handlOnKeyDown(event){
-    if( this.keys.find( (key) => key == event.keyCode) && !this.bindings[event.keyCode].pressed ){
-      this.bindings[event.keyCode].pressed = true
-      this.keyPressed = true
-//      this.bindings["87"]()
-//      alert(this.bindings[event.keyCode].act)
-      this.bindings[event.keyCode].action()
-    }
-//    alert(this.player.xVelocity)
+    if (this.keys.indexOf(String(event.keyCode)) === -1) return;
+    if(this.bindings[event.keyCode].pressed) return;
+    console.log(this.keys.indexOf(String(event.keyCode)) === -1)
+    this.nOfKeyPressed++;
+    this.player.stop();
+    this.bindings[String(event.keyCode)].press();
+    return;
   }
-  
 }
 
 class Button{
   constructor(action){
     this.action = () => action()
     this.pressed = false 
+  }
+  press(){
+    this.pressed = true
+    this.action()
   }
 }
