@@ -51,7 +51,7 @@ export default class Screen {
       textureName = "run" //both runs have the same amount of frames 
                             //instead of creating another object for run left just use the one for normal run
       if(this.player.xVelocity > 0){
-        texture = "mcRun"
+        texture = "mcRunRight"
       }else{
         texture = "mcRunLeft"
       }
@@ -65,7 +65,7 @@ export default class Screen {
   #drawMushroom(object){
 
     let textureName="run"; 
-    let texture = object.xVelocity > 0 ? "mushroomRun" : "mushroomRunLeft";
+    let texture = object.xVelocity > 0 ? "mushroomRunRight" : "mushroomRunLeft";
 
     if(object.xVelocity == 0 ){
       textureName="death"
@@ -202,7 +202,9 @@ class Tiles{
     this.get = this.get.bind(this)
     this.add = this.add.bind(this)
   }
-  add(name,x,y,tilesetId,width=16,height=16,animationFrameNumber,addBothSides=false){
+  add(name,x,y,tilesetId,width=16,height=16,animationFrameNumber=false,addBothSides=false){
+    //animation frame number is used to indicate the frame of animation if tile is statis leave as false
+
     //if addBothSides is true 2 copies will be added for right and left hand side
     //initial position always should be right
     const buffer = document.createElement('canvas');            
@@ -213,7 +215,7 @@ class Tiles{
     if(addBothSides){
       context.translate(width, 0);
       context.scale(-1, 1);
-      name = `${name}Left${animationFrameNumber}`
+      name = `${name}Left`
     }
     context.drawImage(this.tileset[tilesetId],
       x,y,
@@ -221,8 +223,10 @@ class Tiles{
       0,0,
       this.width,this.height
     )
+    if(animationFrameNumber !== false){ name = `${name}${animationFrameNumber}`}
+    console.log(name)
     this.tiles.set(name,buffer)
-    if(addBothSides){this.add(`${passedName}Right${animationFrameNumber}`,x,y,tilesetId,width,height,false)}
+    if(addBothSides){this.add(`${passedName}Right`,x,y,tilesetId,width,height,animationFrameNumber,false)}
   }
   get(name){
     if(this.tiles.has(name)){
@@ -299,98 +303,75 @@ await getTexture()
   tiles.add("leafVertical",496,160,0)
   tiles.add("leafTopLeftCorner",464,144,0)
 
-  tiles.add("mcRun0",0,16,1) 
-  tiles.add("mcRun1",16,16,1)
-  tiles.add("mcRun2",32,16,1)
-  tiles.add("mcRun3",48,16,1)
-  tiles.add("mcRun4",64,16,1)
-  tiles.add("mcRun5",80,16,1)
-
-  tiles.add("mcRunLeft0",0,176,1)
-  tiles.add("mcRunLeft1",16,176,1)
-  tiles.add("mcRunLeft2",32,176,1)
-  tiles.add("mcRunLeft3",48,176,1)
-  tiles.add("mcRunLeft4",64,176,1)
-  tiles.add("mcRunLeft5",80,176,1)
+  tiles.add("mcRun",0,16,1 ,16,16,0,true) 
+  tiles.add("mcRun",16,16,1,16,16,1,true)
+  tiles.add("mcRun",32,16,1,16,16,2,true)
+  tiles.add("mcRun",48,16,1,16,16,3,true)
+  tiles.add("mcRun",64,16,1,16,16,4,true)
+  tiles.add("mcRun",80,16,1,16,16,5,true)
   
   tiles.add("mcIdle",0,80,1,16,16,0,true)
   tiles.add("mcIdle",16,80,1,16,16,1,true)
   tiles.add("mcIdle",32,80,1,16,16,2,true)
   tiles.add("mcIdle",48,80,1,16,16,3,true)
 
-  tiles.add("mcAttackRight0",0,64,1)
-  tiles.add("mcAttackRight1",16,64,1)
-  tiles.add("mcAttackRight2",32,64,1)
-  tiles.add("mcAttackRight3",48,64,1)
-  tiles.add("mcAttackRight4",64,64,1)
-  tiles.add("mcAttackRight5",80,64,1)
-  tiles.add("mcAttackRight6",96,64,1)
+  tiles.add("mcAttack",0,64,1 ,16,16,0,true)
+  tiles.add("mcAttack",16,64,1,16,16,1,true)
+  tiles.add("mcAttack",32,64,1,16,16,2,true)
+  tiles.add("mcAttack",48,64,1,16,16,3,true)
+  tiles.add("mcAttack",64,64,1,16,16,4,true)
+  tiles.add("mcAttack",80,64,1,16,16,5,true)
+  tiles.add("mcAttack",96,64,1,16,16,6,true)
+,16,16,0
+  tiles.add("mushroomRun",16,0,2 ,16,16,0,true)
+  tiles.add("mushroomRun",32,0,2 ,16,16,1,true)
+  tiles.add("mushroomRun",48,0,2 ,16,16,2,true)
+  tiles.add("mushroomRun",64,0,2 ,16,16,3,true)
+  tiles.add("mushroomRun",80,0,2 ,16,16,4,true)
+  tiles.add("mushroomRun",96,0,2 ,16,16,5,true)
+  tiles.add("mushroomRun",114,0,2,16,16,6,true)
 
-  tiles.add("mushroomRun0",16,0,2)
-  tiles.add("mushroomRun1",32,0,2)
-  tiles.add("mushroomRun2",48,0,2)
-  tiles.add("mushroomRun3",64,0,2)
-  tiles.add("mushroomRun4",80,0,2)
-  tiles.add("mushroomRun5",96,0,2)
-  tiles.add("mushroomRun6",114,0,2)
+  tiles.add("mushroomDeath",0,32,2 ,16,16,0)
+  tiles.add("mushroomDeath",16,32,2,16,16,1)
+  tiles.add("mushroomDeath",32,32,2,16,16,2)
+  tiles.add("mushroomDeath",48,32,2,16,16,3)
 
-  tiles.add("mushroomRunLeft0",16,16,2)
-  tiles.add("mushroomRunLeft1",32,16,2)
-  tiles.add("mushroomRunLeft2",48,16,2)
-  tiles.add("mushroomRunLeft3",64,16,2)
-  tiles.add("mushroomRunLeft4",80,16,2)
-  tiles.add("mushroomRunLeft5",96,16,2)
-  tiles.add("mushroomRunLeft6",114,16,2)
 
-  tiles.add("mushroomDeath0",0,32,2)
-  tiles.add("mushroomDeath1",16,32,2)
-  tiles.add("mushroomDeath2",32,32,2)
-  tiles.add("mushroomDeath3",48,32,2)
-
-  tiles.add("plantLeft0",0,0,5,44,44)
-  tiles.add("plantLeft1",44,0,5,44,44)
-  tiles.add("plantLeft2",88,0,5,44,44)
-  tiles.add("plantLeft3",132,0,5,44,44)
-  tiles.add("plantLeft4",176,0,5,44,44)
-  tiles.add("plantLeft5",220,0,5,44,44)
-  tiles.add("plantLeft6",264,0,5,44,44)
-  tiles.add("plantLeft7",308,0,5,44,44)
-
-  tiles.add("plantRight0",0,44,5,44,44)
-  tiles.add("plantRight1",44,44,5,44,44)
-  tiles.add("plantRight2",88,44,5,44,44)
-  tiles.add("plantRight3",132,44,5,44,44)
-  tiles.add("plantRight4",176,44,5,44,44)
-  tiles.add("plantRight5",220,44,5,44,44)
-  tiles.add("plantRight6",264,44,5,44,44)
-  tiles.add("plantRight7",308,44,5,44,44)
+  tiles.add("plant",0,44,5,44,44  ,0,true)
+  tiles.add("plant",44,44,5,44,44 ,1,true)
+  tiles.add("plant",88,44,5,44,44 ,2,true)
+  tiles.add("plant",132,44,5,44,44,3,true)
+  tiles.add("plant",176,44,5,44,44,4,true)
+  tiles.add("plant",220,44,5,44,44,5,true)
+  tiles.add("plant",264,44,5,44,44,6,true)
+  tiles.add("plant",308,44,5,44,44,7,true)
 
   tiles.add("plantBullet",0,86,5,44,44)
   //technically its a strawberry
-  tiles.add("coin0",8,8,3)
-  tiles.add("coin1",40,8,3)
-  tiles.add("coin2",72,8,3)
-  tiles.add("coin3",104,8,3)
-  tiles.add("coin4",168,8,3)
-  tiles.add("coin5",200,8,3)
-  tiles.add("coin6",232,8,3)
-  tiles.add("coin7",264,8,3)
-  tiles.add("coin8",296,8,3)
-  tiles.add("coin9",328,8,3)
-  tiles.add("coin10",360,8,3)
-  tiles.add("coin11",392,8,3)
-  tiles.add("coin12",424,8,3)
-  tiles.add("coin13",456,8,3)
-  tiles.add("coin14",488,8,3)
-  tiles.add("coin15",520,8,3)
+  tiles.add("coin",8,8,3  ,16,16,0)
+  tiles.add("coin",40,8,3 ,16,16,1)
+  tiles.add("coin",72,8,3 ,16,16,2)
+  tiles.add("coin",104,8,3,16,16,3)
+  tiles.add("coin",168,8,3,16,16,4)
+  tiles.add("coin",200,8,3,16,16,5)
+  tiles.add("coin",232,8,3,16,16,6)
+  tiles.add("coin",264,8,3,16,16,7)
+  tiles.add("coin",296,8,3,16,16,8)
+  tiles.add("coin",328,8,3,16,16,9)
+  tiles.add("coin",360,8,3,16,16,10)
+  tiles.add("coin",392,8,3,16,16,11)
+  tiles.add("coin",424,8,3,16,16,12)
+  tiles.add("coin",456,8,3,16,16,13)
+  tiles.add("coin",488,8,3,16,16,14)
+  tiles.add("coin",520,8,3,16,16,15)
 
-  tiles.add("flag0",0,0,4,64,64)
-  tiles.add("flag1",64,0,4,64,64)
-  tiles.add("flag2",128,0,4,64,64)
-  tiles.add("flag3",192,0,4,64,64)
-  tiles.add("flag4",256,0,4,64,64)
-  tiles.add("flag5",320,0,4,64,64)
-  tiles.add("flag6",384,0,4,64,64)
-  tiles.add("flag7",448,0,4,64,64)
-  tiles.add("flag8",512,0,4,64,64)
-  tiles.add("flag9",576,0,4,64,64)
+  tiles.add("flag",0,0,4,64,64  ,0)
+  tiles.add("flag",64,0,4,64,64 ,1)
+  tiles.add("flag",128,0,4,64,64,2)
+  tiles.add("flag",192,0,4,64,64,3)
+  tiles.add("flag",256,0,4,64,64,4)
+  tiles.add("flag",320,0,4,64,64,5)
+  tiles.add("flag",384,0,4,64,64,6)
+  tiles.add("flag",448,0,4,64,64,7)
+  tiles.add("flag",512,0,4,64,64,8)
+  tiles.add("flag",576,0,4,64,64,9)
