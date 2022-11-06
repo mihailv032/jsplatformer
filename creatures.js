@@ -66,8 +66,17 @@ export class Player extends Creature {
   constructor(x,y){
     super(x,y)
     this.update = this.update.bind(this)
+    this.lookingDirection = 'right'
+
+    this.updateLookingDirection = this.updateLookingDirection.bind(this)
+  }
+  updateLookingDirection(direction){
+    if(this.direction !== "left" || this.direction !== "right") return;
+    this.lookingDirection = direction
   }
   update(){
+    if(this.xVelocity > 0) this.lookingDirection = "right"
+    if(this.xVelocity < 0) this.lookingDirection = "left"
     super.update()
   }
 }
