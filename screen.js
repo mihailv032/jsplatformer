@@ -41,10 +41,12 @@ export default class Screen {
     let textureName //will be used to get the info about the animation from playeranimation obj
     if(this.player.attacks){
       textureName="attack" 
-      texture = "mcAttack"+this.player.animations[textureName].currentFrame
+      if(this.player.lookingDirection === "right"){ texture = "mcAttackRight"+this.player.animations[textureName].currentFrame
+      }else texture = "mcAttackLeft"+this.player.animations[textureName].currentFrame;
     }else if(this.player.xVelocity == 0){
       textureName = "idle"
-      texture = "mcIdle"
+      if(this.player.lookingDirection === "right" ){texture = "mcIdleRight"}
+      else texture = "mcIdleLeft"
     }else{
       textureName = "run" //both runs have the same amount of frames 
                             //instead of creating another object for run left just use the one for normal run
@@ -135,11 +137,11 @@ export default class Screen {
     for(let key in objects[1]){
       this.#drawMushroom(objects[1][key])
     }
-  //  for(let key in objects[2]){
-  //    this.#drawPlant(objects[2][key])
-  //  }
+    for(let key in objects[2]){
+      this.#drawPlant(objects[2][key])
+    }
 
-//    this.buffer.drawImage(this.getTexture("plantBullet"),50,50,16,16)//test
+    this.buffer.drawImage(this.getTexture("plantBullet"),50,50,16,16)//test
     this.buffer.fillStyle="#ffffff"
     this.buffer.font = "6px 'Press Start 2P', cursive"
     this.buffer.fillText(`Time Left: ${this.world.timer}s`,this.buffer.canvas.width-100,30)
@@ -200,34 +202,27 @@ class Tiles{
     this.get = this.get.bind(this)
     this.add = this.add.bind(this)
   }
-  add(name,x,y,tilesetId,width=16,height=16){
-    const buffer = document.createElement('canvas');
+  add(name,x,y,tilesetId,width=16,height=16,animationFrameNumber,addBothSides=false){
+    //if addBothSides is true 2 copies will be added for right and left hand side
+    //initial position always should be right
+    const buffer = document.createElement('canvas');            
     buffer.width = this.width
     buffer.height = this.height
-
-    buffer.getContext('2d').drawImage(this.tileset[tilesetId],
+    let passedName = name; //needed for addBothSidesCase as the inital name will be modified
+    const context = buffer.getContext('2d')
+    if(addBothSides){
+      context.translate(width, 0);
+      context.scale(-1, 1);
+      name = `${name}Left${animationFrameNumber}`
+    }
+    context.drawImage(this.tileset[tilesetId],
       x,y,
       width,height,
       0,0,
       this.width,this.height
-      )
-    
+    )
     this.tiles.set(name,buffer)
-  }
-  add64(name,x,y,tilesetId){
-     const buffer = document.createElement('canvas');
-    buffer.width = this.width
-    buffer.height = this.height
-
-    buffer.getContext('2d').drawImage(this.tileset[tilesetId],
-      x,y,
-      64,64,
-      0,0,
-      this.width,this.height
-      )
-    
-    this.tiles.set(name,buffer)
-
+    if(addBothSides){this.add(`${passedName}Right${animationFrameNumber}`,x,y,tilesetId,width,height,false)}
   }
   get(name){
     if(this.tiles.has(name)){
@@ -318,18 +313,18 @@ await getTexture()
   tiles.add("mcRunLeft4",64,176,1)
   tiles.add("mcRunLeft5",80,176,1)
   
-  tiles.add("mcIdle0",0,80,1)
-  tiles.add("mcIdle1",16,80,1)
-  tiles.add("mcIdle2",32,80,1)
-  tiles.add("mcIdle3",48,80,1)
+  tiles.add("mcIdle",0,80,1,16,16,0,true)
+  tiles.add("mcIdle",16,80,1,16,16,1,true)
+  tiles.add("mcIdle",32,80,1,16,16,2,true)
+  tiles.add("mcIdle",48,80,1,16,16,3,true)
 
-  tiles.add("mcAttack0",0,64,1)
-  tiles.add("mcAttack1",16,64,1)
-  tiles.add("mcAttack2",32,64,1)
-  tiles.add("mcAttack3",48,64,1)
-  tiles.add("mcAttack4",64,64,1)
-  tiles.add("mcAttack5",80,64,1)
-  tiles.add("mcAttack6",96,64,1)
+  tiles.add("mcAttackRight0",0,64,1)
+  tiles.add("mcAttackRight1",16,64,1)
+  tiles.add("mcAttackRight2",32,64,1)
+  tiles.add("mcAttackRight3",48,64,1)
+  tiles.add("mcAttackRight4",64,64,1)
+  tiles.add("mcAttackRight5",80,64,1)
+  tiles.add("mcAttackRight6",96,64,1)
 
   tiles.add("mushroomRun0",16,0,2)
   tiles.add("mushroomRun1",32,0,2)
