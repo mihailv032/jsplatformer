@@ -57,9 +57,11 @@ export default class Screen {
       }
     }
     texture = texture + this.#handlAnimation(this.player.animations,textureName)
-    this.buffer.fillStyle = this.player.health > 50 ? "#009614" : "#fc030f" //defines the colours for the hp bar
+    const playerX = this.player.lookingDirection === "right" ? Math.floor(this.player.x) : Math.floor(this.player.x)
+    const playerY = Math.floor(this.player.y+7)
+    this.buffer.fillStyle = this.player.health > 70 ? "#009614" : this.player.health > 30 ? "#ab5b00" : "#fc030f" //defines the colours for the hp bar
     this.buffer.fillRect(Math.floor(this.player.x), Math.floor(this.player.y+2), (this.player.width*(this.player.health/100) ), 2) //hp bar
-    this.buffer.drawImage(this.getTexture(texture),Math.floor(this.player.x), Math.floor(this.player.y+7), this.player.width, this.player.height); 
+    this.buffer.drawImage(this.getTexture(texture),playerX, playerY, this.player.width, this.player.height); 
   }
 
   #drawMushroom(object){
