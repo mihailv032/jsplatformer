@@ -125,8 +125,12 @@ export class RenderEngine{
      // however turns out it will always return a 4 so thats what i do to save resources
      if(this.player.lookingDirection === "right"){this.player.x = this.player.x - 4}
      else{this.player.x = this.player.x + 4}
-     if (this.collisionTable[xpos].y[ypos][0] <= ypos){
-       this.player.y = this.collisionTable[xpos].y[ypos][0] 
+     console.log(ypos)
+     console.log(Math.round(this.player.y)+6)
+     if (this.player.jumping){
+       if(this.player.yVelocity > 0){this.player.y = ypos - 16}
+       else this.player.y = ypos + 16
+//       this.player.y = this.collisionTable[xpos].y[ypos][0] 
        
        //	this.player.stop()
        //when you jump on a platform you never land on it 
@@ -199,7 +203,7 @@ export class RenderEngine{
   #gravitationSimulation(){ 
     if (this.player.jumping){
       this.player.yVelocity < 0 ? this.playerJumpingTime++ : this.playerJumpingTime = 0
-      if(this.playerJumpingTime  == 2){
+      if(this.playerJumpingTime  === 2){//for some reasone >= will make him fly
         this.player.yVelocity = -6
         return;
       }else if (this.playerJumpingTime == 5){
