@@ -112,41 +112,45 @@ export class RenderEngine{
     this.#plaerCollisionDetection()
   }
 
-  #plaerCollisionDetection(){
-    if(Math.round(this.player.x/16) in this.collisionTable){
-      const xpos = Math.round(this.player.x/16)
-      if(this.collisionTable[xpos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ] !== undefined ){
-        this.player.x = this.collisionTable[xpos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][1]
-	if (this.collisionTable[xpos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][0] <= roundToTheNearestMultipleOfSixteen(this.player.y)){
-          this.player.y = this.collisionTable[xpos].y[roundToTheNearestMultipleOfSixteen(this.player.y) ][0] 
-	  
-	  //	this.player.stop()
-          //when you jump on a platform you never land on it 
-          //your x/y gets changed by the physics engine 
-          //so you technically never land 
-          //to fix this just make sure to explicitaly set jumping to false and yvelocity to 0
-	  this.player.jumping=false; this.player.yVelocity=0;this.playerJumpingTime=0 //bug fix 
-	}else {
-	  this.player.stop()
-	}
-      }else {
-      }
-    }
-  }
+   #plaerCollisionDetection(){
+     const xpos = roundToNearestMultipleOfSixteen(this.player.x)/16
+     const ypos = roundToNearestMultipleOfSixteen(this.player.y) 
+
+     console.log(xpos)
+     if(!(xpos in this.collisionTable)) return;
+     if(this.collisionTable[xpos].y[ypos] === undefined ) return;
+
+     //setting the x of the player to be = to his currect x -/+ the distance that he colided with the object
+     // +/- 4 (velosity speed) so the collision with the obejct will look more smooth
+     if(this.player.lookingDirection === "right"){this.player.x = this.player.x - (xpos - (this.player.x/16))*16 + 4}
+     else this.player.x = this.player.x + (xpos - (this.player.x/16))*16 - 4
+     if (this.collisionTable[xpos].y[ypos][0] <= ypos){
+       this.player.y = this.collisionTable[xpos].y[ypos][0] 
+       
+       //	this.player.stop()
+       //when you jump on a platform you never land on it 
+       //your x/y gets changed by the physics engine 
+       //so you technically never land 
+       //to fix this just make sure to explicitaly set jumping to false and yvelocity to 0
+       this.player.jumping=false; this.player.yVelocity=0;this.playerJumpingTime=0 //bug fix 
+     }else {
+       this.player.stop()
+     }
+   }
 
   #objectsCollision(){
     let objects = this.world.objects
     for(let key in objects[1]){
 //      this.#edgeCheck(objects[0][key]) //not really needed for this objects
 
-      if ( roundToTheNearestMultipleOfSixteen(objects[1][key].x) == roundToTheNearestMultipleOfSixteen(this.player.x) ){
+      if ( roundToNearestMultipleOfSixteen(objects[1][key].x) == roundToNearestMultipleOfSixteen(this.player.x) ){
         if(this.player.yVelocity > 0){//if the player jumps on mushrooms head
-          if( roundToTheNearestMultipleOfSixteen(objects[1][key].y)-16 == roundToTheNearestMultipleOfSixteen(this.player.y)){ 
+          if( roundToNearestMultipleOfSixteen(objects[1][key].y)-16 ==  roundToNearestMultipleOfSixteen(this.player.y)){ 
             objects[1][key].takeDamage(100)
             return;
           }
         }
-        if( roundToTheNearestMultipleOfSixteen(objects[1][key].y) == this.player.y){ 
+        if( roundToNearestMultipleOfSixteen(objects[1][key].y) == this.player.y){ 
           if(objects[1][key].health != 0){//mushrooms are alive for 9 frames after their hp reach 0 so they can play the death animation 
             console.log('attack')
             this.player.takeDamage()
