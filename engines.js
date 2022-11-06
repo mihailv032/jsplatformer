@@ -116,14 +116,15 @@ export class RenderEngine{
      const xpos = roundToNearestMultipleOfSixteen(this.player.x)/16
      const ypos = roundToNearestMultipleOfSixteen(this.player.y) 
 
-     console.log(xpos)
      if(!(xpos in this.collisionTable)) return;
      if(this.collisionTable[xpos].y[ypos] === undefined ) return;
 
      //setting the x of the player to be = to his currect x -/+ the distance that he colided with the object
      // +/- 4 (velosity speed) so the collision with the obejct will look more smooth
-     if(this.player.lookingDirection === "right"){this.player.x = this.player.x - (xpos - (this.player.x/16))*16 + 4}
-     else this.player.x = this.player.x + (xpos - (this.player.x/16))*16 - 4
+     //the initial calculations looked like this: this.player.x = this.player.x - (xpos - (this.player.x/16))*16 + 4
+     // however turns out it will always return a 4 so thats what i do to save resources
+     if(this.player.lookingDirection === "right"){this.player.x = this.player.x - 4}
+     else{this.player.x = this.player.x + 4}
      if (this.collisionTable[xpos].y[ypos][0] <= ypos){
        this.player.y = this.collisionTable[xpos].y[ypos][0] 
        
@@ -159,15 +160,15 @@ export class RenderEngine{
       }
     }
     for(let key in objects[0]){
-      if(objects[0][key].x == roundToTheNearestMultipleOfSixteen(this.player.x)){
-        if(objects[0][key].y == roundToTheNearestMultipleOfSixteen(this.player.y)){
+      if(objects[0][key].x == roundToNearestMultipleOfSixteen(this.player.x)){
+        if(objects[0][key].y == roundToNearestMultipleOfSixteen(this.player.y)){
           objects[0][key].scoreIncrease()
           objects[0][key].disintegrate()
         }
       }
     }
 //    this.world.objects[1].forEach( object => { 
-//      console.log(`${object.x} == ${roundToTheNearestMultipleOfSixteen(this.player.x)} `)
+//      console.log(`${object.x} == ${roundToNearestMultipleOfSixteen(this.player.x)} `)
 //   })
   }
   #edgeCheck(object){
@@ -210,7 +211,7 @@ export class RenderEngine{
       return;
     }   
     if( (Math.round(this.player.x/16) in this.collisionTable) ){//technically should alway be true
-      if(this.collisionTable[Math.round(this.player.x/16)].y[ roundToTheNearestMultipleOfSixteen(this.player.y)+16 ] == undefined ){
+      if(this.collisionTable[Math.round(this.player.x/16)].y[ roundToNearestMultipleOfSixteen(this.player.y)+16 ] == undefined ){
 	//if there is no ground under the player 
 	this.player.jumping = true
 	this.player.yVelocity = 3.3
@@ -246,7 +247,7 @@ export class RenderEngine{
   }
 }
 
-function roundToTheNearestMultipleOfSixteen(number){
+function roundToNearestMultipleOfSixteen(number){
   return Number.isInteger(number/16) ? number : Math.round(number/16)*16
 }
 
