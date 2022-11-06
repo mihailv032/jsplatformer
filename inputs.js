@@ -19,8 +19,8 @@ export default class Cfg {
 
   handlOnKeyUp(event){
     if (this.keys.indexOf(String(event.keyCode)) === -1) return;
-    if (event.keyCode == 32) { this.bindings[32].pressed=false; return null;}
-    if(this.nOfKeyPressed === 1){this.player.stop()};
+    if (event.keyCode == 32) { this.bindings[32].pressed=false; this.nOfKeyPressed--; return null;};
+    if(this.nOfKeyPressed <= 1){this.player.stop()};
     this.nOfKeyPressed--;
     this.bindings[event.keyCode].pressed = false 
     return;
@@ -30,7 +30,7 @@ export default class Cfg {
     if(this.bindings[event.keyCode].pressed) return;
     console.log(this.keys.indexOf(String(event.keyCode)) === -1)
     this.nOfKeyPressed++;
-    this.player.stop();
+    if(event.keyCode !== 32) this.player.stop();
     this.bindings[String(event.keyCode)].press();
     return;
   }
