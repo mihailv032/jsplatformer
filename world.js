@@ -1,10 +1,15 @@
 import {Mushroom,Plant, Player,Coin} from "./creatures.js"
+import {RENDERING_DISTANCE} from './constants.js'
 //import { PhysicsEngine } from "./engines.js"
 
 export default class World{
   constructor(level,retry,nextLevel){
     this.height = 288 //height to width ratio should be 1:3
     this. width = 896 //max width 56 max height 18
+    this.cameraWidth = 448 
+    this.cameraHeight = 288
+    this.cameraX = [0,448]
+    this.cameraY = [0,288]
     this.score = 0
     this.level = level,
     this.timer = window.level.timer
@@ -79,6 +84,25 @@ export default class World{
 	return;
       }
     }
+//    console.log(`${this.cameraWidth - RENDERING_DISTANCE} ${(this.cameraWidth)-(this.cameraX[1]-this.player.x)}`)
+    if( ((this.cameraWidth)-(this.cameraX[1]-this.player.x)) >= this.cameraWidth - RENDERING_DISTANCE){//RENDERING_DISTANCE=48
+      console.log('hre')
+      if((this.cameraX[1]+ RENDERING_DISTANCE) > this.width){
+	this.cameraX[1] += this.width - this.cameraX[1]//cameraShift
+	this.cameraX[0] += this.width - this.cameraX[1]
+      }else{
+	this.cameraX[1] += RENDERING_DISTANCE
+	this.cameraX[0] += RENDERING_DISTANCE
+      }
+    }
+    if(this.player.x-RENDERING_DISTANCE < this.cameraX[0] ){
+      if(this.player.x-RENDERING_DISTANCE > 0){;
+	console.log("move camera back")
+	this.cameraX[1] -= RENDERING_DISTANCE
+	this.cameraX[0] -= RENDERING_DISTANCE
+      }
+    }
+    
     this.player.update()
     this.objects.slice(1).forEach( (object,index) => {//start from 1 objs as object at index 0 stores all the coins which do not need to be updated
       for(let key in object){//only the enemies have an inner state to update 

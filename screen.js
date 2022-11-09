@@ -1,3 +1,5 @@
+import {RENDERING_DISTANCE} from './constants.js'
+
 /*
 The screen class will handl all the animations
 and render all the graphics 
@@ -57,10 +59,17 @@ export default class Screen {
       }
     }
     texture = texture + this.#handlAnimation(this.player.animations,textureName)
-    const playerX = this.player.lookingDirection === "right" ? Math.floor(this.player.x) : Math.floor(this.player.x)
+    let playerX; //=Math.floor(this.player.x);
+    if(Math.floor(this.player.x) > this.world.cameraWidth) {
+      playerX = (this.world.cameraWidth)-(this.world.cameraX[1]-this.player.x) //Math.floor(this.player.x) - this.world.cameraX[0]
+      //	  if(this.world.cameraX[0]/16 !== 0){xOnCanvas = x - this.world.cameraX[0]/16}
+      //	  else xOnCanvas = x - (this.world.cameraX[0] - this.world.cameraX[1])
+    }
+    else playerX=Math.floor(this.player.x);
+
     const playerY = Math.floor(this.player.y+7)
     this.buffer.fillStyle = this.player.health > 70 ? "#009614" : this.player.health > 30 ? "#ab5b00" : "#fc030f" //defines the colours for the hp bar
-    this.buffer.fillRect(Math.floor(this.player.x), Math.floor(this.player.y+2), (this.player.width*(this.player.health/100) ), 2) //hp bar
+    this.buffer.fillRect(playerX, Math.floor(this.player.y+2), (this.player.width*(this.player.health/100) ), 2) //hp bar
     this.buffer.drawImage(this.getTexture(texture),playerX, playerY, this.player.width, this.player.height); 
   }
 
@@ -91,41 +100,77 @@ export default class Screen {
     texture = texture+this.#handlAnimation(coin.animations,textureName)
     this.buffer.drawImage(this.getTexture(texture),coin.x,coin.y+4,16,16)
   }
-  #drawBackground(instruction){
-    const xStart = instruction.ranges[0]
-    const xEnd =instruction.ranges[1]
-    const yStart = instruction.ranges[2]
-    const yEnd= instruction.ranges[3]
-    const texture=instruction.tile
-
-    for( let x=xStart;x<xEnd; x++ ){
-      let y=yStart
-      for( let y=yStart;y<yEnd;y++){
-        this.buffer.drawImage(this.getTexture(texture),x*16,y*16,16,16)
-      }
-    }
-  }
   #drawFlag(){
     if (this.flagAnimation.delay == this.flagAnimation.delayThreshold){
       //check if at the last frame
       this.flagAnimation.currentFrame == this.flagAnimation.totalFrames ? this.flagAnimation.currentFrame=0 : this.flagAnimation.currentFrame++
-      this.flagAnimation.delay = 0
+													      this.flagAnimation.delay = 0
     }else {
       this.flagAnimation.delay += 1
     }
-    let texture = "flag"
-
-    this.buffer.drawImage(this.getTexture(`flag${this.flagAnimation.currentFrame}`),window.level.endGame[0]*16,(window.level.endGame[1]*16)+4,16,16)
+    const texture = "flag"
+    this.buffer.drawImage(this.getTexture(`${texture}${this.flagAnimation.currentFrame}`),window.level.endGame[0]*16,(window.level.endGame[1]*16)+4,16,16)
   }
+  #drawBackground(instruction){
+    let xStart,//= this.world.cameraX[0] < instruction.ranges[0]*16 ? instruction.ranges[0] : this.world.cameraX[0]/16
+	xEnd; //instruction.ranges[1];// = this.world.cameraX[1] <= instruction.ranges[1]*16 ? this.world.cameraX[1]/16 : instruction.ranges[1]
+    const yStart = instruction.ranges[2]
+    const yEnd= instruction.ranges[3]
+    const texture=instruction.tile
+
+//    if(instruction.ranges[1]*16 > this.world.cameraWidth) {
+//      xEnd= this.world.cameraWidth-(instruction.ranges[1]-this.world.cameraX[1]/16)
+    if(instruction.ranges[1]*16 >= this.world.cameraX[1]){
+	//if(instruction.tile === "background") alert('her')
+      xEnd=this.world.cameraWidth/16;
+    }else{
+      if(instruction.tile === "greenLeaf"){
+
+      }
+      xEnd = (this.world.cameraWidth/16)-((this.world.cameraX[1]/16) - instruction.ranges[1])
+    }
+
+  //   }else xEnd=instruction.ranges[1]
+    if(instruction.ranges[0]*16 <= this.world.cameraX[0]){xStart = 0;}
+    else xStart = instruction.ranges[0]-(this.world.cameraX[0]/16);
+//grassBottomRightCorner
+//   if(instruction.tile === "greenLeaf"){
+//      console.log(`${xEnd} asdf ${xStart}`)
+//    }
+
+    for( let x=xStart;x<=xEnd; x++ ){
+      for( let y=yStart;y<=yEnd;y++){
+        this.buffer.drawImage(this.getTexture(texture),(x*16),y*16,16,16)
+      }
+    }
+  }
+
   #drawLevel(){
 //    this.#draw(this.level.background[0])
     window.level.background.forEach( item => {
+      if(item.ranges[1]*16 < this.world.cameraX[0]){return};
+      if(item.ranges[0]*16 > this.world.cameraX[1]) return;
+
       this.#drawBackground(item)
     })
     window.level.ground.forEach( item => {
+      if(item.ranges[1]*16 < this.world.cameraX[0]){return};
+      if(item.ranges[0]*16 > this.world.cameraX[1]) return;
+//      if(item.ranges[3] > this.world.cameraY[0]) return;
+//      if(item.ranges[4] > this.world.cameraY[1]) return;
+
       this.#drawBackground(item)
     })
 
+  }
+  kurwa(){
+//    for(let i =0; i<=this.world.cameraWidth; i++){
+//      this.buffer.fillStyle="#ffffff"
+//      this.buffer.fillRect(i,200,16,16)
+//    }
+    this.buffer.fillStyle="#ffffff"
+    this.buffer.fillRect(this.world.cameraX[1]-RENDERING_DISTANCE,5,16,16)
+    this.buffer.fillRect(this.world.cameraX[1],5,16,16)
   }
   update(){
     let objects = this.world.objects
@@ -133,6 +178,7 @@ export default class Screen {
     this.#drawFlag()
     this.#drawPlayer()
 
+    this.kurwa()
     for(let key in objects[0]){
       this.#drawCoin(objects[0][key])
     }
@@ -226,7 +272,6 @@ class Tiles{
       this.width,this.height
     )
     if(animationFrameNumber !== false){ name = `${name}${animationFrameNumber}`}
-    console.log(name)
     this.tiles.set(name,buffer)
     if(addBothSides){this.add(`${passedName}Right`,x,y,tilesetId,width,height,animationFrameNumber,false)}
   }

@@ -125,14 +125,10 @@ export class RenderEngine{
      // however turns out it will always return a 4 so thats what i do to save resources
      if(this.player.lookingDirection === "right"){this.player.x = this.player.x - 4}
      else{this.player.x = this.player.x + 4}
-     console.log(ypos)
-     console.log(Math.round(this.player.y)+6)
      if (this.player.jumping){
        if(this.player.yVelocity > 0){this.player.y = ypos - 16}
        else this.player.y = ypos + 16
-//       this.player.y = this.collisionTable[xpos].y[ypos][0] 
        
-       //	this.player.stop()
        //when you jump on a platform you never land on it 
        //your x/y gets changed by the physics engine 
        //so you technically never land 
@@ -235,9 +231,9 @@ export class RenderEngine{
       const yStart = item.ranges[2]
       const yEnd= item.ranges[3]
       
-      for( let x=xStart;x<xEnd; x++ ){
+      for( let x=xStart;x<=xEnd; x++ ){
         let xResolve=x*16+item.collisionResolve.x*16;
-        for( let y=yStart;y<yEnd;y++){
+        for( let y=yStart;y<=yEnd;y++){
           let yResolve=(y-item.collisionResolve.y)*16
           if(x in this.collisionTable){
             this.collisionTable[x].add(y*16,yResolve,xResolve)
