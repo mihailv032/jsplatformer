@@ -15,7 +15,7 @@ export default class Screen {
     this.world = world
     this.update = this.update.bind(this)
     this.buffer.canvas.height = world.height
-    this.buffer.canvas.width = world.width
+    this.buffer.canvas.width = world.cameraWidth//world.width
 
     this.animations = {
 
@@ -59,14 +59,8 @@ export default class Screen {
       }
     }
     texture = texture + this.#handlAnimation(this.player.animations,textureName)
-    let playerX; //=Math.floor(this.player.x);
-    if(Math.floor(this.player.x) > this.world.cameraWidth) {
-      playerX = (this.world.cameraWidth)-(this.world.cameraX[1]-this.player.x) //Math.floor(this.player.x) - this.world.cameraX[0]
-      //	  if(this.world.cameraX[0]/16 !== 0){xOnCanvas = x - this.world.cameraX[0]/16}
-      //	  else xOnCanvas = x - (this.world.cameraX[0] - this.world.cameraX[1])
-    }
-    else playerX=Math.floor(this.player.x);
-
+    let playerX=this.#findAbsolutePosition(this.player.x)//this.player.x;
+//    console.log(playerX)
     const playerY = Math.floor(this.player.y+7)
     this.buffer.fillStyle = this.player.health > 70 ? "#009614" : this.player.health > 30 ? "#ab5b00" : "#fc030f" //defines the colours for the hp bar
     this.buffer.fillRect(playerX, Math.floor(this.player.y+2), (this.player.width*(this.player.health/100) ), 2) //hp bar
@@ -111,6 +105,7 @@ export default class Screen {
     const texture = "flag"
     this.buffer.drawImage(this.getTexture(`${texture}${this.flagAnimation.currentFrame}`),window.level.endGame[0]*16,(window.level.endGame[1]*16)+4,16,16)
   }
+  #findAbsolutePosition(pos){return this.world.cameraWidth - (this.world.cameraX[1] - pos)};
   #drawBackground(instruction){
     let xStart,//= this.world.cameraX[0] < instruction.ranges[0]*16 ? instruction.ranges[0] : this.world.cameraX[0]/16
 	xEnd; //instruction.ranges[1];// = this.world.cameraX[1] <= instruction.ranges[1]*16 ? this.world.cameraX[1]/16 : instruction.ranges[1]
@@ -118,25 +113,11 @@ export default class Screen {
     const yEnd= instruction.ranges[3]
     const texture=instruction.tile
 
-//    if(instruction.ranges[1]*16 > this.world.cameraWidth) {
-//      xEnd= this.world.cameraWidth-(instruction.ranges[1]-this.world.cameraX[1]/16)
-    if(instruction.ranges[1]*16 >= this.world.cameraX[1]){
-	//if(instruction.tile === "background") alert('her')
-      xEnd=this.world.cameraWidth/16;
-    }else{
-      if(instruction.tile === "greenLeaf"){
+    if(instruction.ranges[1]*16 >= this.world.cameraX[1]){xEnd=this.world.cameraWidth/16;}
+    else xEnd = this.#findAbsolutePosition(instruction.ranges[1]*16)/16;
 
-      }
-      xEnd = (this.world.cameraWidth/16)-((this.world.cameraX[1]/16) - instruction.ranges[1])
-    }
-
-  //   }else xEnd=instruction.ranges[1]
     if(instruction.ranges[0]*16 <= this.world.cameraX[0]){xStart = 0;}
     else xStart = instruction.ranges[0]-(this.world.cameraX[0]/16);
-//grassBottomRightCorner
-//   if(instruction.tile === "greenLeaf"){
-//      console.log(`${xEnd} asdf ${xStart}`)
-//    }
 
     for( let x=xStart;x<=xEnd; x++ ){
       for( let y=yStart;y<=yEnd;y++){
@@ -169,7 +150,7 @@ export default class Screen {
 //      this.buffer.fillRect(i,200,16,16)
 //    }
     this.buffer.fillStyle="#ffffff"
-    this.buffer.fillRect(this.world.cameraX[1]-RENDERING_DISTANCE,5,16,16)
+    this.buffer.fillRect(this.world.cameraWidth-RENDERING_DISTANCE,5,16,16)
     this.buffer.fillRect(this.world.cameraX[1],5,16,16)
   }
   update(){

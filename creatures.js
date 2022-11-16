@@ -9,6 +9,8 @@ class Creature {
     this.health = 100
     this.attacks = false
 
+    this.baseXvelocity = -4
+
     this.damageKd = 0
     this.deathKd = 9 //the thingy will still be on the screen for 3 frams are death so it can play the death animation
     this.jumping = false //if the thing is jumping right now
@@ -26,10 +28,10 @@ class Creature {
   }
 
   moveLeft(){
-    this.xVelocity -= -4;
+    this.xVelocity -= this.baseXvelocity;
   }
   moveRight(){
-    this.xVelocity += -4;//default 1.5
+    this.xVelocity += this.baseXvelocity;//default 1.5
   }
   jump(){
     if (!this.jumping){

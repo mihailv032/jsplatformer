@@ -61,9 +61,9 @@ export default class World{
     window.level.coins ? window.level.coins.forEach( ([x,y],index) => {
       this.objects[0][index] = new Coin(x*16,y*16, () => this.delete(0,index), () => this.increaseScore())
     }) : null
-    window.level.mushrooms ? window.level.mushrooms.forEach( (mushroom,index) => {
-      this.objects[1][index] = new Mushroom(mushroom.x*16,mushroom.y*16,mushroom.bariers, () => this.delete(1,index) )
-    }) : null 
+  //  window.level.mushrooms ? window.level.mushrooms.forEach( (mushroom,index) => {
+  //    this.objects[1][index] = new Mushroom(mushroom.x*16,mushroom.y*16,mushroom.bariers, () => this.delete(1,index) )
+  //  }) : null 
     window.level.plants ? window.level.plants.forEach( (plant,index) => { 
       this.objects[2][index] = new Plant(plant.x*16,plant.y*16, plant.vector, () => this.delete(2,index) )
     }) : null
@@ -84,25 +84,30 @@ export default class World{
 	return;
       }
     }
-//    console.log(`${this.cameraWidth - RENDERING_DISTANCE} ${(this.cameraWidth)-(this.cameraX[1]-this.player.x)}`)
-    if( ((this.cameraWidth)-(this.cameraX[1]-this.player.x)) >= this.cameraWidth - RENDERING_DISTANCE){//RENDERING_DISTANCE=48
-      console.log('hre')
-      if((this.cameraX[1]+ RENDERING_DISTANCE) > this.width){
-	this.cameraX[1] += this.width - this.cameraX[1]//cameraShift
-	this.cameraX[0] += this.width - this.cameraX[1]
+
+    //RENDERING_DISTANCE=48
+    //player.baseVelocity
+    if( ((this.player.x) >= this.cameraX[1] - RENDERING_DISTANCE) && (this.player.xVelocity > 0)){//should we move the camera
+      if( (this.cameraX[1] + RENDERING_DISTANCE > this.width) && (this.cameraX[1] - this.player.baseXvelocity >= this.width)){//if the player got to the end of the world
+	//the and is needed for smooth camera transition
+	this.cameraX[1] = this.width
+	this.cameraX[0] = this.width-this.cameraWidth
       }else{
-	this.cameraX[1] += RENDERING_DISTANCE
-	this.cameraX[0] += RENDERING_DISTANCE
+	this.cameraX[1] -= this.player.baseXvelocity //RENDERING_DISTANCE
+	this.cameraX[0] -= this.player.baseXvelocity //RENDERING_DISTANCE
+      }
+//      this.player.x  += RENDERING_DISTANCE
+    }
+    if( (this.player.x < this.cameraX[0] + RENDERING_DISTANCE) && (this.player.xVelocity < 0)){
+      if( (this.cameraX[0] - RENDERING_DISTANCE <= 0) && (this.cameraX[0] + this.player.baseXvelocity <= 0)){//end of the world case 
+	//the and is needed for smooth camera transition
+	this.cameraX[0] = 0;
+	this.cameraX[1] = this.cameraWidth;
+      }else{
+	this.cameraX[1] += this.player.baseXvelocity
+	this.cameraX[0] += this.player.baseXvelocity
       }
     }
-    if(this.player.x-RENDERING_DISTANCE < this.cameraX[0] ){
-      if(this.player.x-RENDERING_DISTANCE > 0){;
-	console.log("move camera back")
-	this.cameraX[1] -= RENDERING_DISTANCE
-	this.cameraX[0] -= RENDERING_DISTANCE
-      }
-    }
-    
     this.player.update()
     this.objects.slice(1).forEach( (object,index) => {//start from 1 objs as object at index 0 stores all the coins which do not need to be updated
       for(let key in object){//only the enemies have an inner state to update 
@@ -120,11 +125,3 @@ class objectPosition{
     }
   }
 }
-
-let x = {
-  y: {
-    f:"5"
-  }
-}
-
-console.log(x.y.f)

@@ -51,7 +51,7 @@ let timer;
 function startLevel(){
   timer = setInterval(() => {
     world.timer--
-  }, 1000);
+  }, 100000);
   world.populateWorld()
   screen.setAnimations()
   physicsEngine.fillCollisionTable()
