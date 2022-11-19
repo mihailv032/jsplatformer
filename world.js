@@ -8,7 +8,7 @@ export default class World{
     this. width = 896 //max width 56 max height 18
     this.cameraWidth = 448 
     this.cameraHeight = 288
-    this.cameraX = [0,448]
+    this.cameraX = [window.level.cameraX[0]*16,window.level.cameraX[1]*16]
     this.cameraY = [0,288]
     this.score = 0
     this.level = level,
@@ -54,7 +54,9 @@ export default class World{
     this.objects = [{},{},{},{}]
     this.objectsPossition = {}
   }
+  //more like init world
   populateWorld(){
+    this.cameraX = [window.level.cameraX[0]*16,window.level.cameraX[1]*16]
     this.player.x = window.level.mcSpawn[0]*16//set the spawn spoints here
     this.player.y = window.level.mcSpawn[1]*16
 
