@@ -77,22 +77,25 @@ export default class Screen {
       texture="mushroomDeath"
     }    
     texture = texture+String(this.#handlAnimation(object.animations,textureName))
+    const mushroomX = this.#findAbsolutePosition(object.x)
     this.buffer.fillStyle = object.health > 50 ? "#009614" : "#fc030f"
-    this.buffer.fillRect(Math.floor(object.x), Math.floor(object.y+2), (object.width*(object.health/100) ), 2) //hp bar
-    this.buffer.drawImage(this.getTexture(texture),object.x,object.y+7,16,16)
+    this.buffer.fillRect(mushroomX, Math.floor(object.y+2), (object.width*(object.health/100) ), 2) //hp bar
+    this.buffer.drawImage(this.getTexture(texture),mushroomX,object.y+7,16,16)
   }
   #drawPlant(plant){
     let textureName = plant.vector > 0 ? "plantLeft" : "plantRight"
     let texture = textureName + String(this.#handlAnimation(plant.animations,textureName))
 
-    this.buffer.fillRect(Math.floor(plant.x), Math.floor(plant.y+2), (plant.width*(plant.health/100) ), 2) //hp bar
-    this.buffer.drawImage(this.getTexture(texture),plant.x,plant.y+7,16,16)
+    const plantX = this.#findAbsolutePosition(plant.x)
+    this.buffer.fillRect(Math.floor(plantX), Math.floor(plant.y+2), (plant.width*(plant.health/100) ), 2) //hp bar
+    this.buffer.drawImage(this.getTexture(texture),plantX,plant.y+7,16,16)
   }
   #drawCoin(coin){
     let textureName = "rotate"
     let texture = "coin"
     texture = texture+this.#handlAnimation(coin.animations,textureName)
-    this.buffer.drawImage(this.getTexture(texture),coin.x,coin.y+4,16,16)
+    const coinX = this.#findAbsolutePosition(coin.x)
+    this.buffer.drawImage(this.getTexture(texture),coinX,coin.y+4,16,16)
   }
   #drawFlag(){
     if (this.flagAnimation.delay == this.flagAnimation.delayThreshold){
@@ -103,7 +106,8 @@ export default class Screen {
       this.flagAnimation.delay += 1
     }
     const texture = "flag"
-    this.buffer.drawImage(this.getTexture(`${texture}${this.flagAnimation.currentFrame}`),window.level.endGame[0]*16,(window.level.endGame[1]*16)+4,16,16)
+    const flagX = this.#findAbsolutePosition(window.level.endGame[0]*16)
+    this.buffer.drawImage(this.getTexture(`${texture}${this.flagAnimation.currentFrame}`),flagX,(window.level.endGame[1]*16)+4,16,16)
   }
   #findAbsolutePosition(pos){return this.world.cameraWidth - (this.world.cameraX[1] - pos)};
   #drawBackground(instruction){

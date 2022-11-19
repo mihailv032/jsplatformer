@@ -60,13 +60,13 @@ export default class World{
     this.player.x = window.level.mcSpawn[0]*16//set the spawn spoints here
     this.player.y = window.level.mcSpawn[1]*16
 
-    window.level.coins ? window.level.coins.forEach( ([x,y],index) => {
+    window.level.coins ? window.level.coins.forEach( ([x,y],index) => {//coins
       this.objects[0][index] = new Coin(x*16,y*16, () => this.delete(0,index), () => this.increaseScore())
     }) : null
-  //  window.level.mushrooms ? window.level.mushrooms.forEach( (mushroom,index) => {
-  //    this.objects[1][index] = new Mushroom(mushroom.x*16,mushroom.y*16,mushroom.bariers, () => this.delete(1,index) )
-  //  }) : null 
-    window.level.plants ? window.level.plants.forEach( (plant,index) => { 
+    window.level.mushrooms ? window.level.mushrooms.forEach( (mushroom,index) => {//mushrooms
+      this.objects[1][index] = new Mushroom(mushroom.x*16,mushroom.y*16,mushroom.bariers, () => this.delete(1,index) )
+    }) : null 
+    window.level.plants ? window.level.plants.forEach( (plant,index) => { //plants
       this.objects[2][index] = new Plant(plant.x*16,plant.y*16, plant.vector, () => this.delete(2,index) )
     }) : null
   }
