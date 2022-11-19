@@ -70,35 +70,21 @@ export default class World{
       this.objects[2][index] = new Plant(plant.x*16,plant.y*16, plant.vector, () => this.delete(2,index) )
     }) : null
   }
+  handleCamera(){
 
-  update(){
-    if(this.timer == 0){
-      this.retry()
-      return;
-    }
-    if(this.player.health <= 0){
-      this.retry()
-      return;
-    }
-    if(this.player.x == window.level.endGame[0]*16){
-      if(this.player.y == window.level.endGame[1]*16){
-        this.nextLevel()
-	return;
-      }
-    }
-
-    //RENDERING_DISTANCE=48
-    //player.baseVelocity
-    if( ((this.player.x) >= this.cameraX[1] - RENDERING_DISTANCE) && (this.player.xVelocity > 0)){//should we move the camera
-      if( (this.cameraX[1] + RENDERING_DISTANCE > this.width) && (this.cameraX[1] - this.player.baseXvelocity >= this.width)){//if the player got to the end of the world
+    //if the player got to the end of the world
+    if( (this.cameraX[1] + RENDERING_DISTANCE > this.width) && (this.cameraX[1] - this.player.baseXvelocity >= this.width) && (this.player.xVelocity >= 0)){
+      this.cameraX[1] = this.width
+      this.cameraX[0] = this.width-this.cameraWidth
+    }else{
+      if( ((this.player.x) >= this.cameraX[1] - RENDERING_DISTANCE) && (this.player.xVelocity > 0)){//should we move the camera
 	//the and is needed for smooth camera transition
-	this.cameraX[1] = this.width
-	this.cameraX[0] = this.width-this.cameraWidth
-      }else{
-	this.cameraX[1] -= this.player.baseXvelocity //RENDERING_DISTANCE
-	this.cameraX[0] -= this.player.baseXvelocity //RENDERING_DISTANCE
+	this.cameraX[1] -= this.player.baseXvelocity 
+	this.cameraX[0] -= this.player.baseXvelocity 
+      }else if((this.player.xVelocity === 0) && ((this.player.x) >= (this.cameraX[1] - RENDERING_DISTANCE*1.5))){//center camera
+	this.cameraX[1] -= this.player.baseXvelocity/1.5
+	this.cameraX[0] -= this.player.baseXvelocity/1.5
       }
-//      this.player.x  += RENDERING_DISTANCE
     }
     if( (this.player.x < this.cameraX[0] + RENDERING_DISTANCE) && (this.player.xVelocity < 0)){
       if( (this.cameraX[0] - RENDERING_DISTANCE <= 0) && (this.cameraX[0] + this.player.baseXvelocity <= 0)){//end of the world case 
@@ -110,6 +96,27 @@ export default class World{
 	this.cameraX[0] += this.player.baseXvelocity
       }
     }
+
+  }
+  update(){
+    if(this.timer == 0){
+      this.retry()
+      return;
+    }
+    if(this.player.health <= 0){
+      this.retry()
+      return;
+    }
+    this.handleCamera()
+    if(this.player.x == window.level.endGame[0]*16){
+      if(this.player.y == window.level.endGame[1]*16){
+        this.nextLevel()
+	return;
+      }
+    }
+
+    //RENDERING_DISTANCE=48
+    //player.baseVelocity
     this.player.update()
     this.objects.slice(1).forEach( (object,index) => {//start from 1 objs as object at index 0 stores all the coins which do not need to be updated
       for(let key in object){//only the enemies have an inner state to update 

@@ -1,1 +1,1 @@
-export const RENDERING_DISTANCE = 48;
+export const RENDERING_DISTANCE = 96;
