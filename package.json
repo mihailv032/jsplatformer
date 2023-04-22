@@ -4,7 +4,7 @@
   "description": "",
   "main": "source.js",
   "scripts": {
-	"start": "serve ./",
+    "start": "serve ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/mishgun032/jsplatformer#readme",
   "dependencies": {
+    "nodemon": "^2.0.22",
     "serve": "^13.0.2"
   }
 }
