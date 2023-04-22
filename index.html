@@ -10,10 +10,13 @@
       align-items: center;
       flex-direction: column;
       height: 100vh;
-      margin: auto;
-      min-width: 800px;
+      margin: 0;
       background: black;
     }
+   #canvas{
+     width: 100vw;
+     height: 100vh;
+   }
     #popup{
       height: 100vh;
       width: 100%;
@@ -69,9 +72,6 @@
   <title>ZD</title>
 </head>
 <body>
-  <h1>press D to move right</h1>
-  <h1>press a to move left</h1>
-  <h1>press space to jump </h1>
   <div id="popup">
     <div class="popupInner">
       <h1 id="title">Game over</h1>
@@ -83,7 +83,9 @@
       <button id="retry">Retry</button>
     </div>
   </div>
-  <canvas id="canvas" width="300" height="300"></canvas> 
+  <div>
+    <canvas id="canvas" width="300" height="300"></canvas> 
+  </div>
   <script type="module" src="./source.js"></script>
 </body>
 </html>
