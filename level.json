@@ -51,7 +51,7 @@
 	    {
 		"tile": "groundGrass",
 		"ranges": [
-		    0,34,
+		    0,35,
 		    16,16
 		],
 		"collisionResolve": {
@@ -95,7 +95,7 @@
             {
 		"tile":"groundGrass",
 		"ranges":[
-		    36,49,
+		    36,50,
 		    14,14
 		],
 		"collisionResolve":{
