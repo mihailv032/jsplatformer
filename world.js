@@ -1,6 +1,6 @@
 import {Mushroom,Plant, Player,Coin} from "./creatures.js"
 import {RENDERING_DISTANCE} from './constants.js'
-//import { PhysicsEngine } from "./engines.js"
+import { roundToNearestMultipleOfSixteen } from "./engines.js"
 
 export default class World{
   constructor(level,retry,nextLevel){
@@ -105,13 +105,22 @@ export default class World{
 
   handleCameraY(){
     //move camera up 
-    if(this.player.y < this.cameraY[0]){
-      return;
+
       console.log(this.cameraY)
-      this.cameraY[0] -= 10
-      this.cameraY[1] -= 10
+    if(this.player.y < this.cameraY[0]){//if the plaer is 1 block away from top of the camera
+      this.cameraY[0] -= 64
+      this.cameraY[1] -= 64
+    }
+
+    if(this.player.y > this.cameraY[1]-32) {
+      if(this.player.jumping){
+	console.log(this.player.yVelocity)
+	this.cameraY[0] += this.player.yVelocity
+	this.cameraY[1] += this.player.yVelocity
+      }
     }
   }
+
 
   update(){
     if(this.timer == 0){
