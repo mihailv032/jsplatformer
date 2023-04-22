@@ -283,7 +283,8 @@
 	"threshold":50,
 	"mcSpawn":[4,15],
 	"endGame":[45,4],
-	"cameraX": [0,28]
+	"cameraX": [0,14],
+	"cameraY": [10,18]
     },
     "2":{
 	"background": [
@@ -946,6 +947,6 @@
 	"threshold":25,
 	"mcSpawn":[20,4],
 	"endGame":[2,15],
-	"cameraX": [43,59]
+	"cameraX": [4,20]
     }
 }

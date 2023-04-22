@@ -6,10 +6,10 @@ export default class World{
   constructor(level,retry,nextLevel){
     this.height = 288 //height to width ratio should be 1:3
     this. width = 896 //max width 56 max height 18
-    this.cameraWidth = 448 
-    this.cameraHeight = 288
+    this.cameraWidth = 256 
+    this.cameraHeight = 128
     this.cameraX = [window.level.cameraX[0]*16,window.level.cameraX[1]*16]
-    this.cameraY = [0,288]
+    this.cameraY = [window.level.cameraY[0]*16,window.level.cameraY[1]*16]
     this.score = 0
     this.level = level,
     this.timer = window.level.timer
@@ -70,8 +70,8 @@ export default class World{
       this.objects[2][index] = new Plant(plant.x*16,plant.y*16, plant.vector, () => this.delete(2,index) )
     }) : null
   }
-  handleCamera(){
-
+  handleCameraX(){
+    
     //if the player got to the end of the world
     if( (this.cameraX[1] + RENDERING_DISTANCE > this.width) && (this.cameraX[1] - this.player.baseXvelocity >= this.width) && (this.player.xVelocity >= 0)){
       this.cameraX[1] = this.width
@@ -79,25 +79,40 @@ export default class World{
     }else{
       if( ((this.player.x) >= this.cameraX[1] - RENDERING_DISTANCE) && (this.player.xVelocity > 0)){//should we move the camera
 	//the and is needed for smooth camera transition
-	this.cameraX[1] -= this.player.baseXvelocity 
+	this.cameraX[1] -= this.player.baseXvelocity //we substract because the player baseXvelocity is -4
 	this.cameraX[0] -= this.player.baseXvelocity 
       }else if((this.player.xVelocity === 0) && ((this.player.x) >= (this.cameraX[1] - RENDERING_DISTANCE*1.5))){//center camera
 	this.cameraX[1] -= this.player.baseXvelocity/1.5
 	this.cameraX[0] -= this.player.baseXvelocity/1.5
       }
     }
-    if( (this.player.x < this.cameraX[0] + RENDERING_DISTANCE) && (this.player.xVelocity < 0)){
-      if( (this.cameraX[0] - RENDERING_DISTANCE <= 0) && (this.cameraX[0] + this.player.baseXvelocity <= 0)){//end of the world case 
-	//the and is needed for smooth camera transition
-	this.cameraX[0] = 0;
-	this.cameraX[1] = this.cameraWidth;
-      }else{
+    
+    if( (this.cameraX[0] - RENDERING_DISTANCE < 0) && (this.cameraX[0] + this.player.baseXvelocity <= 0) && (this.player.xVelocity <= 0)){//end of the world case 
+      //the and is needed for smooth camera transition
+      this.cameraX[0] = 0;
+      this.cameraX[1] = this.cameraWidth;
+    }else{
+      if( ((this.player.x) <= this.cameraX[0] + RENDERING_DISTANCE) && (this.player.xVelocity < 0)){//should we move the camera
 	this.cameraX[1] += this.player.baseXvelocity
 	this.cameraX[0] += this.player.baseXvelocity
+      }else if((this.player.xVelocity === 0) && ((this.player.x) >= (this.cameraX[1] + RENDERING_DISTANCE*1.5))){
+	this.cameraX[1] += this.player.baseXvelocity/1.5
+	this.cameraX[0] += this.player.baseXvelocity/1.5
       }
+      
     }
-
   }
+
+  handleCameraY(){
+    //move camera up 
+    if(this.player.y < this.cameraY[0]){
+      return;
+      console.log(this.cameraY)
+      this.cameraY[0] -= 10
+      this.cameraY[1] -= 10
+    }
+  }
+
   update(){
     if(this.timer == 0){
       this.retry()
@@ -107,7 +122,8 @@ export default class World{
       this.retry()
       return;
     }
-    this.handleCamera()
+    this.handleCameraX()
+    this.handleCameraY()
     if(this.player.x == window.level.endGame[0]*16){
       if(this.player.y == window.level.endGame[1]*16){
         this.nextLevel()

@@ -14,7 +14,7 @@ export default class Screen {
     this.player = world.player
     this.world = world
     this.update = this.update.bind(this)
-    this.buffer.canvas.height = world.height
+    this.buffer.canvas.height = world.cameraHeight//world.height
     this.buffer.canvas.width = world.cameraWidth//world.width
 
     this.animations = {
@@ -61,9 +61,9 @@ export default class Screen {
     texture = texture + this.#handlAnimation(this.player.animations,textureName)
     let playerX=this.#findAbsolutePosition(this.player.x)//this.player.x;
 //    console.log(playerX)
-    const playerY = Math.floor(this.player.y+7)
+	  const playerY = this.#findAbsoluteYPosition(this.player.y)+7
     this.buffer.fillStyle = this.player.health > 70 ? "#009614" : this.player.health > 30 ? "#ab5b00" : "#fc030f" //defines the colours for the hp bar
-    this.buffer.fillRect(playerX, Math.floor(this.player.y+2), (this.player.width*(this.player.health/100) ), 2) //hp bar
+    this.buffer.fillRect(playerX, playerY-3, (this.player.width*(this.player.health/100) ), 2) //hp bar
     this.buffer.drawImage(this.getTexture(texture),playerX, playerY, this.player.width, this.player.height); 
   }
 
@@ -78,24 +78,27 @@ export default class Screen {
     }    
     texture = texture+String(this.#handlAnimation(object.animations,textureName))
     const mushroomX = this.#findAbsolutePosition(object.x)
+    const muchroomY = this.#findAbsoluteYPosition(object.y)
     this.buffer.fillStyle = object.health > 50 ? "#009614" : "#fc030f"
-    this.buffer.fillRect(mushroomX, Math.floor(object.y+2), (object.width*(object.health/100) ), 2) //hp bar
-    this.buffer.drawImage(this.getTexture(texture),mushroomX,object.y+7,16,16)
+    this.buffer.fillRect(mushroomX, Math.floor(muchroomY+5), (object.width*(object.health/100) ), 2) //hp bar
+    this.buffer.drawImage(this.getTexture(texture),mushroomX,muchroomY+7,16,16)
   }
   #drawPlant(plant){
     let textureName = plant.vector > 0 ? "plantLeft" : "plantRight"
     let texture = textureName + String(this.#handlAnimation(plant.animations,textureName))
 
     const plantX = this.#findAbsolutePosition(plant.x)
-    this.buffer.fillRect(Math.floor(plantX), Math.floor(plant.y+2), (plant.width*(plant.health/100) ), 2) //hp bar
-    this.buffer.drawImage(this.getTexture(texture),plantX,plant.y+7,16,16)
+    const planY = this.#findAbsoluteYPosition(plant.y)
+    this.buffer.fillRect(Math.floor(plantX), Math.floor(planY+2), (plant.width*(plant.health/100) ), 2) //hp bar
+    this.buffer.drawImage(this.getTexture(texture),plantX,planY+7,16,16)
   }
   #drawCoin(coin){
     let textureName = "rotate"
     let texture = "coin"
     texture = texture+this.#handlAnimation(coin.animations,textureName)
     const coinX = this.#findAbsolutePosition(coin.x)
-    this.buffer.drawImage(this.getTexture(texture),coinX,coin.y+4,16,16)
+    const coinY = this.#findAbsoluteYPosition(coin.y)
+    this.buffer.drawImage(this.getTexture(texture),coinX,coinY+4,16,16)
   }
   #drawFlag(){
     if (this.flagAnimation.delay == this.flagAnimation.delayThreshold){
@@ -107,22 +110,19 @@ export default class Screen {
     }
     const texture = "flag"
     const flagX = this.#findAbsolutePosition(window.level.endGame[0]*16)
-    this.buffer.drawImage(this.getTexture(`${texture}${this.flagAnimation.currentFrame}`),flagX,(window.level.endGame[1]*16)+4,16,16)
+    const flagY = this.#findAbsoluteYPosition(window.level.endGame[1]*16)
+    this.buffer.drawImage(this.getTexture(`${texture}${this.flagAnimation.currentFrame}`),flagX,flagY+4,16,16)
   }
   #findAbsolutePosition(pos){return this.world.cameraWidth - (this.world.cameraX[1] - pos)};
+  #findAbsoluteYPosition(pos){return this.world.cameraHeight - (this.world.cameraY[1] - pos)}
   #drawBackground(instruction){
-    let xStart,//= this.world.cameraX[0] < instruction.ranges[0]*16 ? instruction.ranges[0] : this.world.cameraX[0]/16
-	xEnd; //instruction.ranges[1];// = this.world.cameraX[1] <= instruction.ranges[1]*16 ? this.world.cameraX[1]/16 : instruction.ranges[1]
-    const yStart = instruction.ranges[2]
-    const yEnd= instruction.ranges[3]
-    const texture=instruction.tile
-
-    if(instruction.ranges[1]*16 >= this.world.cameraX[1]){xEnd=this.world.cameraWidth/16;}
-    else xEnd = this.#findAbsolutePosition(instruction.ranges[1]*16)/16;
-
-    if(instruction.ranges[0]*16 <= this.world.cameraX[0]){xStart = 0;}
-    else xStart = instruction.ranges[0]-(this.world.cameraX[0]/16);
-
+    const xStart = instruction.ranges[0]*16 <= this.world.cameraX[0] ? 0 : instruction.ranges[0]-(this.world.cameraX[0]/16),
+	  xEnd = instruction.ranges[1]*16 >= this.world.cameraX[1] ? this.world.cameraWidth/16 : this.#findAbsolutePosition(instruction.ranges[1]*16)/16,
+	  yStart = instruction.ranges[2]*16 < this.world.cameraY[0] ? 0 : instruction.ranges[2]-(this.world.cameraY[0]/16),
+	  yEnd= instruction.ranges[3]*16 > this.world.cameraY[1] ? this.world.cameraHeight/16 : this.#findAbsoluteYPosition(instruction.ranges[3]*16)/16,
+	  texture=instruction.tile
+//    debugger
+    if(instruction.ranges[0] === 3 && instruction.ranges[1] === 5) debugger;
     for( let x=xStart;x<=xEnd; x++ ){
       for( let y=yStart;y<=yEnd;y++){
         this.buffer.drawImage(this.getTexture(texture),(x*16),y*16,16,16)
@@ -205,6 +205,7 @@ export default class Screen {
   }
 
   onResize(width,height,worldheightwidthratio) {
+    return;
     if (height / width > worldheightwidthratio) {
       this.context.canvas.height = width * worldheightwidthratio;
       this.context.canvas.width = width;
