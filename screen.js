@@ -121,8 +121,6 @@ export default class Screen {
 	  yStart = instruction.ranges[2]*16 < this.world.cameraY[0] ? 0 : instruction.ranges[2]-(this.world.cameraY[0]/16),
 	  yEnd= instruction.ranges[3]*16 > this.world.cameraY[1] ? this.world.cameraHeight/16 : this.#findAbsoluteYPosition(instruction.ranges[3]*16)/16,
 	  texture=instruction.tile
-//    debugger
-    if(instruction.ranges[0] === 3 && instruction.ranges[1] === 5) debugger;
     for( let x=xStart;x<=xEnd; x++ ){
       for( let y=yStart;y<=yEnd;y++){
         this.buffer.drawImage(this.getTexture(texture),(x*16),y*16,16,16)

@@ -247,7 +247,7 @@ export class RenderEngine{
   }
 }
 
-function roundToNearestMultipleOfSixteen(number){
+export function roundToNearestMultipleOfSixteen(number){
   return Number.isInteger(number/16) ? number : Math.round(number/16)*16
 }
 
